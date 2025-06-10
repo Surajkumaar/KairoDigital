@@ -1,0 +1,216 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(210, 40%, 2%);
+  --muted: hsl(210, 40%, 96%);
+  --muted-foreground: hsl(215, 13%, 65%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(210, 40%, 2%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(210, 40%, 2%);
+  --border: hsl(214, 32%, 91%);
+  --input: hsl(214, 32%, 91%);
+  --primary: hsl(221, 83%, 53%);
+  --primary-foreground: hsl(210, 40%, 98%);
+  --secondary: hsl(210, 40%, 96%);
+  --secondary-foreground: hsl(222, 84%, 4%);
+  --accent: hsl(210, 40%, 96%);
+  --accent-foreground: hsl(222, 84%, 4%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+  --ring: hsl(221, 83%, 53%);
+  --radius: 0.75rem;
+  
+  /* Custom Kairo Digital Colors */
+  --kairo-primary: hsl(221, 96%, 53%);
+  --kairo-secondary: hsl(4, 100%, 67%);
+  --kairo-slate-800: hsl(215, 28%, 17%);
+  --kairo-slate-850: hsl(215, 25%, 17%);
+  --kairo-slate-900: hsl(215, 28%, 10%);
+  --kairo-slate-950: hsl(215, 39%, 4%);
+}
+
+.dark {
+  --background: hsl(215, 28%, 10%);
+  --foreground: hsl(210, 40%, 98%);
+  --muted: hsl(215, 28%, 17%);
+  --muted-foreground: hsl(215, 20%, 65%);
+  --popover: hsl(215, 28%, 10%);
+  --popover-foreground: hsl(210, 40%, 98%);
+  --card: hsl(215, 28%, 17%);
+  --card-foreground: hsl(210, 40%, 98%);
+  --border: hsl(215, 28%, 17%);
+  --input: hsl(215, 28%, 17%);
+  --primary: hsl(221, 96%, 53%);
+  --primary-foreground: hsl(210, 40%, 98%);
+  --secondary: hsl(215, 28%, 17%);
+  --secondary-foreground: hsl(210, 40%, 98%);
+  --accent: hsl(215, 28%, 17%);
+  --accent-foreground: hsl(210, 40%, 98%);
+  --destructive: hsl(0, 62%, 30%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+  --ring: hsl(221, 96%, 53%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(221, 96%, 53%), hsl(4, 100%, 67%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-pattern {
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsla(221, 96%, 53%, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsla(4, 100%, 67%, 0.1) 0%, transparent 50%);
+  }
+
+  .shadow-3d {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-3d-hover {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15), 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-3d {
+    transform-style: preserve-3d;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-3d:hover {
+    transform: translateY(-10px) rotateX(5deg) rotateY(-2deg);
+  }
+
+  .service-card {
+    transform: perspective(1000px) rotateX(0deg);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .service-card:hover {
+    transform: perspective(1000px) rotateX(-5deg) translateY(-15px);
+  }
+
+  .floating-element {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .parallax-element {
+    transform-style: preserve-3d;
+  }
+
+  .bg-slate-800 {
+    background-color: hsl(215, 28%, 17%);
+  }
+
+  .bg-slate-850 {
+    background-color: hsl(215, 25%, 17%);
+  }
+
+  .bg-slate-900 {
+    background-color: hsl(215, 28%, 10%);
+  }
+
+  .bg-slate-950 {
+    background-color: hsl(215, 39%, 4%);
+  }
+
+  .text-primary-kairo {
+    color: hsl(221, 96%, 53%);
+  }
+
+  .text-secondary-kairo {
+    color: hsl(4, 100%, 67%);
+  }
+
+  .bg-primary-kairo {
+    background-color: hsl(221, 96%, 53%);
+  }
+
+  .bg-secondary-kairo {
+    background-color: hsl(4, 100%, 67%);
+  }
+
+  .border-primary-kairo {
+    border-color: hsl(221, 96%, 53%);
+  }
+
+  .border-secondary-kairo {
+    border-color: hsl(4, 100%, 67%);
+  }
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) rotateY(0deg); 
+  }
+  50% { 
+    transform: translateY(-20px) rotateY(5deg); 
+  }
+}
+
+@keyframes pulseGlow {
+  0% { 
+    box-shadow: 0 0 20px hsla(221, 96%, 53%, 0.4); 
+  }
+  100% { 
+    box-shadow: 0 0 40px hsla(221, 96%, 53%, 0.8); 
+  }
+}
+
+@keyframes slideUp {
+  from { 
+    transform: translateY(60px); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translateY(0); 
+    opacity: 1; 
+  }
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+  }
+  to { 
+    opacity: 1; 
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite alternate;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
