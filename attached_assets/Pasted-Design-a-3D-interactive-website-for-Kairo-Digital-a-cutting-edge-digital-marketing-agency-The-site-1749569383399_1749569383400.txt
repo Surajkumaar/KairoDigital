@@ -1,0 +1,132 @@
+Design a 3D interactive website for Kairo Digital, a cutting-edge digital marketing agency.
+The site must visually reflect the tagline:
+💡 "Where Creativity Meets Conversion"
+
+🧠 Overall Vibe & Visual Direction:
+
+Modern, clean, sleek, and immersive
+
+Use 3D transitions, parallax effects, and scroll-triggered animations
+
+Leverage bold typography, smooth camera pans, and layered motion
+
+Balanced storytelling – combine artistic visuals with performance marketing content
+
+🎨 Style Guide:
+
+Colors: Slate gray background, off-white base, accents of deep blue #113CFC and coral #FF5C57
+
+Typography: Sans-serif font like Inter or Poppins, with bold section headers and clean body text
+
+Motion: Subtle hover effects, animated icons, scroll-based 3D transformations
+
+Environment: Slight 3D elevation or card-depth style UI; interactive panels reveal content
+
+📄 Pages & Interactive Sections:
+
+🏠 1. Hero Section (Homepage)
+3D animated tagline reveal: “Where Creativity Meets Conversion”
+
+Subtext appears with a soft slide-in: “A digital growth partner for startups, creators, and local brands”
+
+CTA Buttons (3D floating or bounce-in):
+
+“Let’s Grow Together”
+
+“See Our Work”
+
+Background idea: Stylized animation of digital icons, floating brand assets, or an abstract creative studio
+
+👥 2. About Us
+Interactive timeline or orbit-style layout of the company’s journey
+
+Quote-style 3D text overlay: “We’re not just marketers — we’re your growth partner.”
+
+Floating profile cards of team members (5–6) with hover animations
+
+🧰 3. Our Services (Grid with 3D Cards)
+Each card expands on hover/click to reveal content:
+
+📱 Social Media Marketing
+
+🎨 Branding & Visual Identity
+
+✍️ Content Creation
+
+📊 Growth Strategy & Analytics
+
+🧠 Marketing Consultation
+
+🏷️ 4. Industries We Serve (Icon-Based 3D Bubbles or Orbit View)
+Icons that expand on hover with labels:
+
+Startups
+
+Local Businesses
+
+Influencers & Creators
+
+Franchise Brands
+
+Product-Based Companies
+
+📁 5. Portfolio Highlights
+Carousel mockup viewer showing:
+
+Typography reel
+
+Carousel design concept
+
+Thattu Vadai Set campaign breakdown
+
+Add a clickable “Coming Soon” or “Case Study in Progress” label
+
+⭐ 6. Why Choose Us (Split Section with Animated Points)
+Creative Excellence
+
+Agile 5–6 Member Team
+
+No Templates – Only Custom Strategies
+
+Franchise-Friendly: Commission-Based Growth Plans
+
+💬 7. Testimonials (Placeholder)
+Placeholder avatar bubbles with rotating client quote samples or animations that show where reviews will appear
+
+📞 8. Contact Section
+Interactive form with a dropdown: “What kind of growth are you looking for?”
+
+Floating icons for social links: Instagram, LinkedIn
+
+CTA Button: Let’s Talk Growth! — animated pulse or light glow effect
+
+🎯 9. Vision Section
+Story-style horizontal scroll or scroll-triggered card reveal
+
+Quote: “We mix strategy, design, and storytelling to help brands grow organically.”
+
+📰 10. Blog / Insights Section (Optional)
+Placeholder for blog posts with smooth 3D card hover
+
+“Coming Soon” tag or fade-in sample posts
+
+🔧 Extra Interactive Features:
+
+Live chatbot floating button
+
+Newsletter signup modal with magnet text: “Get our free digital growth checklist”
+
+Downloadable brochure button
+
+Sticky “Book a Free Strategy Call” floating action button
+
+⚙️ Tech Optimizations:
+
+Mobile-first layout with interactive responsiveness
+
+Lightning-fast performance with optimized assets
+
+SEO-friendly meta data & structure
+
+🎨 Final Output:
+A futuristic, immersive, interactive website that balances design aesthetics and business performance — perfect for startups, creators, and local brands looking for a digital growth partner.
