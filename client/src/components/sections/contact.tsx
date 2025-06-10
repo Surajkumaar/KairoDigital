@@ -63,25 +63,40 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-slate-800">
-      <div className="container mx-auto px-6">
+    <section id="contact" className="py-32 bg-slate-900 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-10 w-80 h-80 bg-primary-kairo/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary-kairo/5 rounded-full blur-3xl"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,hsl(221,96%,53%,0.1)_0%,transparent_50%),radial-gradient(circle_at_70%_80%,hsl(4,100%,67%,0.1)_0%,transparent_50%)]"></div>
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-20"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">Let's Talk Growth</h2>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-            Ready to transform your digital presence? Let's create something amazing together.
+          <div className="mb-6">
+            <span className="inline-block px-4 py-2 bg-secondary-kairo/10 border border-secondary-kairo/20 rounded-full text-secondary-kairo text-sm font-medium tracking-wide uppercase">
+              Get In Touch
+            </span>
+          </div>
+          <h2 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+            <span className="block text-white">Let's Build</span>
+            <span className="block gradient-text">Something Great</span>
+          </h2>
+          <p className="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed">
+            Ready to transform your digital presence? Share your vision with us and let's create a growth strategy that delivers real results.
           </p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Contact Form */}
           <motion.div 
-            className="service-card bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl shadow-3d"
+            className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 p-10 rounded-3xl hover:border-slate-600/50 transition-all duration-500"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
@@ -98,7 +113,7 @@ export default function Contact() {
                       <FormControl>
                         <Input 
                           placeholder="Your name" 
-                          className="bg-slate-800 border-slate-600 text-white"
+                          className="bg-slate-700/50 border-slate-600/50 text-white placeholder-slate-400 focus:border-primary-kairo focus:ring-primary-kairo/20 rounded-xl h-12"
                           {...field}
                         />
                       </FormControl>
