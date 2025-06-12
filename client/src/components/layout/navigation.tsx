@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoImage from "@/assests/Primary Logo_2 - Transparent.png";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +33,7 @@ export default function Navigation() {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-slate-900/95 backdrop-blur-xl border-b border-slate-700/30"
           : "bg-transparent"
@@ -40,11 +41,16 @@ export default function Navigation() {
     >
       <div className="container mx-auto px-6 py-6">
         <div className="flex items-center justify-between">
-          <div className="text-2xl font-bold">
-            <span className="text-white">Kairo</span>
-            <span className="gradient-text ml-1">Digital</span>
+          {/* Logo Section */}
+          <div className="flex items-center">
+            <img
+              src={logoImage}
+              alt="Kairo Digital"
+              className="h-16 w-auto"
+              style={{ maxHeight: '50px' }}
+            />
           </div>
-          
+
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-12">
             {navLinks.map((link) => (
@@ -57,8 +63,8 @@ export default function Navigation() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-kairo to-secondary-kairo group-hover:w-full transition-all duration-300"></span>
               </button>
             ))}
-            <Button 
-              onClick={() => scrollToSection('#contact')}
+            <Button
+              onClick={() => scrollToSection("#contact")}
               className="bg-primary-kairo hover:bg-blue-600 text-white px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105"
             >
               <span className="flex items-center">
@@ -75,15 +81,31 @@ export default function Navigation() {
             aria-label="Toggle menu"
           >
             <div className="relative">
-              <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${isOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
-              <span className={`block w-6 h-0.5 bg-white mt-1.5 transition-all duration-300 ${isOpen ? 'opacity-0' : ''}`}></span>
-              <span className={`block w-6 h-0.5 bg-white mt-1.5 transition-all duration-300 ${isOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
+              <span
+                className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
+                  isOpen ? "rotate-45 translate-y-1.5" : ""
+                }`}
+              ></span>
+              <span
+                className={`block w-6 h-0.5 bg-white mt-1.5 transition-all duration-300 ${
+                  isOpen ? "opacity-0" : ""
+                }`}
+              ></span>
+              <span
+                className={`block w-6 h-0.5 bg-white mt-1.5 transition-all duration-300 ${
+                  isOpen ? "-rotate-45 -translate-y-1.5" : ""
+                }`}
+              ></span>
             </div>
           </button>
         </div>
 
         {/* Mobile Navigation */}
-        <div className={`md:hidden overflow-hidden transition-all duration-500 ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-500 ${
+            isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
           <div className="pt-8 pb-4 border-t border-slate-700/30 mt-6">
             <div className="flex flex-col space-y-6">
               {navLinks.map((link, index) => (
@@ -96,8 +118,8 @@ export default function Navigation() {
                   {link.label}
                 </button>
               ))}
-              <Button 
-                onClick={() => scrollToSection('#contact')}
+              <Button
+                onClick={() => scrollToSection("#contact")}
                 className="w-full bg-primary-kairo hover:bg-blue-600 text-white px-6 py-3 rounded-full font-medium transition-all duration-300 mt-4"
               >
                 Get Started

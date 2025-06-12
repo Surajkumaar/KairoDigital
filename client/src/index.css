@@ -5,56 +5,57 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(210, 40%, 2%);
-  --muted: hsl(210, 40%, 96%);
-  --muted-foreground: hsl(215, 13%, 65%);
-  --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(210, 40%, 2%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(210, 40%, 2%);
-  --border: hsl(214, 32%, 91%);
-  --input: hsl(214, 32%, 91%);
-  --primary: hsl(221, 83%, 53%);
-  --primary-foreground: hsl(210, 40%, 98%);
-  --secondary: hsl(210, 40%, 96%);
-  --secondary-foreground: hsl(222, 84%, 4%);
-  --accent: hsl(210, 40%, 96%);
-  --accent-foreground: hsl(222, 84%, 4%);
-  --destructive: hsl(0, 84%, 60%);
-  --destructive-foreground: hsl(210, 40%, 98%);
-  --ring: hsl(221, 83%, 53%);
   --radius: 0.75rem;
-  
-  /* Custom Kairo Digital Colors */
-  --kairo-primary: hsl(221, 96%, 53%);
-  --kairo-secondary: hsl(4, 100%, 67%);
-  --kairo-slate-800: hsl(215, 28%, 17%);
-  --kairo-slate-850: hsl(215, 25%, 17%);
-  --kairo-slate-900: hsl(215, 28%, 10%);
-  --kairo-slate-950: hsl(215, 39%, 4%);
+
+  /* Brand Colors - Primary Theme */
+  --kairo-primary: #047BDD;
+  --kairo-secondary: #EF4444;
+  --kairo-slate-800: #1E293B;
+  --kairo-slate-850: #1B2431;
+  --kairo-slate-900: #0F172A;
+  --kairo-slate-950: #020617;
+  --surface-secondary: #FFFFFF;
+  --surface-tertiary: #1E1E1E;
+  --surface-accent: #047BDD;
+  --surface-muted: #0B1217;
+  --surface-light: #F2F2F2;
+  --surface-neutral: #D2D2D2;
+
+  /* Theme mapping */
+  --background: var(--kairo-slate-900);
+  --foreground: var(--surface-secondary);
+  --card: var(--kairo-slate-800);
+  --card-foreground: var(--surface-secondary);
+  --popover: var(--kairo-slate-800);
+  --popover-foreground: var(--surface-secondary);
+  --primary: var(--kairo-primary);
+  --primary-foreground: var(--surface-secondary);
+  --secondary: var(--kairo-secondary);
+  --secondary-foreground: var(--surface-secondary);
+  --border: var(--kairo-slate-800);
+  --input: var(--kairo-slate-800);
+  --ring: var(--kairo-primary);
+  --muted: var(--surface-muted);
+  --accent: var(--surface-accent);
 }
 
 .dark {
-  --background: hsl(215, 28%, 10%);
-  --foreground: hsl(210, 40%, 98%);
-  --muted: hsl(215, 28%, 17%);
-  --muted-foreground: hsl(215, 20%, 65%);
-  --popover: hsl(215, 28%, 10%);
-  --popover-foreground: hsl(210, 40%, 98%);
-  --card: hsl(215, 28%, 17%);
-  --card-foreground: hsl(210, 40%, 98%);
-  --border: hsl(215, 28%, 17%);
-  --input: hsl(215, 28%, 17%);
-  --primary: hsl(221, 96%, 53%);
-  --primary-foreground: hsl(210, 40%, 98%);
-  --secondary: hsl(215, 28%, 17%);
-  --secondary-foreground: hsl(210, 40%, 98%);
-  --accent: hsl(215, 28%, 17%);
-  --accent-foreground: hsl(210, 40%, 98%);
-  --destructive: hsl(0, 62%, 30%);
-  --destructive-foreground: hsl(210, 40%, 98%);
-  --ring: hsl(221, 96%, 53%);
+  --background: var(--kairo-slate-950);
+  --foreground: var(--surface-secondary);
+  --card: var(--kairo-slate-800);
+  --card-foreground: var(--surface-secondary);
+  --popover: var(--kairo-slate-900);
+  --popover-foreground: var(--surface-secondary);
+  --primary: var(--kairo-primary);
+  --primary-foreground: var(--surface-secondary);
+  --secondary: var(--kairo-secondary);
+  --secondary-foreground: var(--surface-secondary);
+  --muted: var(--kairo-slate-800);
+  --accent: var(--kairo-slate-800);
+  --accent-foreground: var(--surface-secondary);
+  --border: var(--kairo-slate-800);
+  --input: var(--kairo-slate-800);
+  --ring: var(--kairo-primary);
 }
 
 @layer base {
@@ -74,7 +75,7 @@
 
 @layer utilities {
   .gradient-text {
-    background: linear-gradient(135deg, hsl(221, 96%, 53%), hsl(4, 100%, 67%));
+    background: linear-gradient(135deg, #047BDD, #FF4C60);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -82,8 +83,8 @@
 
   .bg-pattern {
     background-image: 
-      radial-gradient(circle at 25% 25%, hsla(221, 96%, 53%, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, hsla(4, 100%, 67%, 0.1) 0%, transparent 50%);
+      radial-gradient(circle at 25% 25%, rgba(4, 123, 221, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(255, 76, 96, 0.1) 0%, transparent 50%);
   }
 
   .shadow-3d {
@@ -120,82 +121,104 @@
     transform-style: preserve-3d;
   }
 
-  .bg-slate-800 {
-    background-color: hsl(215, 28%, 17%);
-  }
-
-  .bg-slate-850 {
-    background-color: hsl(215, 25%, 17%);
-  }
-
-  .bg-slate-900 {
-    background-color: hsl(215, 28%, 10%);
-  }
-
-  .bg-slate-950 {
-    background-color: hsl(215, 39%, 4%);
-  }
-
   .text-primary-kairo {
-    color: hsl(221, 96%, 53%);
+    color: var(--kairo-primary);
   }
 
   .text-secondary-kairo {
-    color: hsl(4, 100%, 67%);
+    color: var(--kairo-secondary);
   }
 
   .bg-primary-kairo {
-    background-color: hsl(221, 96%, 53%);
+    background-color: var(--kairo-primary);
   }
 
   .bg-secondary-kairo {
-    background-color: hsl(4, 100%, 67%);
+    background-color: var(--kairo-secondary);
   }
 
   .border-primary-kairo {
-    border-color: hsl(221, 96%, 53%);
+    border-color: var(--kairo-primary);
   }
 
   .border-secondary-kairo {
-    border-color: hsl(4, 100%, 67%);
+    border-color: var(--kairo-secondary);
+  }
+
+  /* Rotating Text Styles */
+  .text-rotate {
+    display: flex;
+    flex-wrap: wrap;
+    white-space: pre-wrap;
+    position: relative;
+  }
+
+  .text-rotate-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .text-rotate-word {
+    display: inline-flex;
+  }
+
+  .text-rotate-lines {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .text-rotate-element {
+    display: inline-block;
+  }
+
+  .text-rotate-space {
+    white-space: pre;
   }
 }
 
 @keyframes float {
-  0%, 100% { 
-    transform: translateY(0px) rotateY(0deg); 
+  0%, 100% {
+    transform: translateY(0px) rotateY(0deg);
   }
-  50% { 
-    transform: translateY(-20px) rotateY(5deg); 
+  50% {
+    transform: translateY(-20px) rotateY(5deg);
   }
 }
 
 @keyframes pulseGlow {
-  0% { 
-    box-shadow: 0 0 20px hsla(221, 96%, 53%, 0.4); 
+  0% {
+    box-shadow: 0 0 20px rgba(4, 123, 221, 0.4);
   }
-  100% { 
-    box-shadow: 0 0 40px hsla(221, 96%, 53%, 0.8); 
+  100% {
+    box-shadow: 0 0 40px rgba(4, 123, 221, 0.8);
   }
 }
 
 @keyframes slideUp {
-  from { 
-    transform: translateY(60px); 
-    opacity: 0; 
+  from {
+    transform: translateY(60px);
+    opacity: 0;
   }
-  to { 
-    transform: translateY(0); 
-    opacity: 1; 
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
 @keyframes fadeIn {
-  from { 
-    opacity: 0; 
+  from {
+    opacity: 0;
   }
-  to { 
-    opacity: 1; 
+  to {
+    opacity: 1;
   }
 }
 
