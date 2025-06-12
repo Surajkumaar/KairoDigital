@@ -6,7 +6,9 @@ export default function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
-            <div className="text-3xl font-bold text-white mb-4">Kairo Digital</div>
+            <div className="text-3xl font-bold text-white mb-4">
+              <img src="/src/assests/Primary Logo_2 - Transparent.png" alt="Kairo Digital" className="h-12" />
+            </div>
             <p className="text-gray-400 mb-6 max-w-md">
               Where Creativity Meets Conversion. Your digital growth partner for meaningful results.
             </p>
