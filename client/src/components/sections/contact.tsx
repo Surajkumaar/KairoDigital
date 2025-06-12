@@ -268,16 +268,11 @@ export default function Contact() {
               transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
             >
-              <Button className="w-full card-3d bg-secondary-kairo hover:bg-red-600 text-white px-6 py-4 rounded-xl font-semibold shadow-3d hover:shadow-3d-hover transition-all">
-                <Download className="mr-2" size={20} />
-                Download Free Growth Checklist
-              </Button>
               <Button 
-                variant="outline"
-                className="w-full card-3d bg-transparent border-2 border-primary-kairo text-primary-kairo hover:bg-primary-kairo hover:text-white px-6 py-4 rounded-xl font-semibold shadow-3d hover:shadow-3d-hover transition-all"
+                className="w-full card-3d bg-blue-600 text-white hover:bg-blue-700 px-6 py-4 rounded-xl font-semibold shadow-3d hover:shadow-3d-hover transition-all"
               >
                 <Calendar className="mr-2" size={20} />
-                Book a Free Strategy Call
+                Book a Free Call
               </Button>
             </motion.div>
           </div>

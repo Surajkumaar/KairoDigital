@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import RotatingText from "@/components/ui/rotating-text";
+import PixelTrail from "@/components/ui/pixel-trail";
 import "@/components/ui/rotating-text.css";
 
 
@@ -164,14 +165,14 @@ export default function Hero() {
             {/* Get Your Quote Button */}
             <Button 
               onClick={() => scrollToSection('#contact')}
-              className="group relative overflow-hidden bg-white text-black hover:bg-gray-200 px-8 py-6 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+              className="group relative overflow-hidden bg-blue-600 text-white hover:bg-blue-700 px-8 py-6 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
               size="lg"
             >
               <span className="relative z-10 flex items-center">
                 Get Your Quote
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-800 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
             </Button>
           </motion.div>
 

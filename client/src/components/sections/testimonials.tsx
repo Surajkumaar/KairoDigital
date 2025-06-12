@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
+import Balatro from "../ui/balatro";
 
 const testimonial = {
   name: "Coming Soon",
@@ -10,8 +11,9 @@ const testimonial = {
 
 export default function Testimonials() {
   return (
-    <section className="py-20 bg-slate-800">
-      <div className="container mx-auto px-6 text-center">
+    <section className="py-20 bg-slate-800 relative overflow-hidden">
+      <Balatro />
+      <div className="container mx-auto px-6 text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -26,7 +28,7 @@ export default function Testimonials() {
 
         <div className="max-w-2xl mx-auto">
           <motion.div
-            className="service-card bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl shadow-3d"
+            className="service-card bg-slate-900/60 backdrop-blur-sm p-8 rounded-2xl shadow-3d"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
