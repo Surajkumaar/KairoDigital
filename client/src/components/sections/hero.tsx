@@ -1,60 +1,16 @@
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+"use client";
+
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import RotatingText from "@/components/ui/rotating-text";
+import "@/components/ui/rotating-text.css";
 
 
 export default function Hero() {
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-
-  const animatedWords = ["Creativity", "Innovation", "Strategy", "Growth"];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentWordIndex((prev) => (prev + 1) % animatedWords.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const letterVariants = {
-    hidden: { 
-      y: 50, 
-      opacity: 0,
-      scale: 0.8,
-      rotateX: -90
-    },
-    visible: (i: number) => ({
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      rotateX: 0,
-      transition: {
-        duration: 0.8,
-        delay: i * 0.05,
-        ease: [0.23, 1, 0.32, 1],
-      },
-    }),
-  };
-
-  const wordChangeVariants = {
-    initial: { y: 20, opacity: 0, scale: 0.8 },
-    animate: { y: 0, opacity: 1, scale: 1 },
-    exit: { y: -20, opacity: 0, scale: 0.8 }
-  };
 
   const scrollToSection = (sectionId: string) => {
     const element = document.querySelector(sectionId);
@@ -140,9 +96,9 @@ export default function Hero() {
 
       <motion.div 
         className="container mx-auto px-6 text-center relative z-10 max-w-6xl"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
       >
         {/* Animated Typography */}
         <motion.div className="mb-12">
@@ -153,15 +109,28 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <span className="inline-block px-4 py-2 bg-primary-kairo/10 border border-primary-kairo/20 rounded-full text-primary-kairo text-sm font-medium tracking-wide uppercase">
+          
             </span>
           </motion.div>
           
-          <div className="text-4xl md:text-6xl font-bold mb-8 leading-[0.9] tracking-tight">
-            {/* Reduced text sizes for "Where" */}
-            <motion.div className="block text-white mb-2">
+          <div className="text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tight text-center space-y-8 flex flex-col items-center justify-center">
+            <motion.div 
+              className="block text-white text-center w-full"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              Where Creativity
+            </motion.div>
+            <motion.div className="block text-center w-full">
               <RotatingText
-                texts={['Where', 'Strategy', 'Meets', 'Conversion']}
-                mainClassName="px-2 sm:px-2 md:px-3 text-white overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center"
+                texts={[
+                  "Meets suraj",
+                  "Drives Growth",
+                  "Creates Impact",
+                  "Meets Success"
+                ]}
+                mainClassName="inline-flex px-4 sm:px-6 md:px-8 bg-primary-kairo/10 text-white overflow-hidden py-2 sm:py-3 md:py-4 justify-center rounded-lg"
                 staggerFrom="last"
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
@@ -177,7 +146,7 @@ export default function Hero() {
 
         {/* Enhanced Subtext */}
         <motion.p 
-          className="text-lg md:text-xl text-slate-300 mb-16 max-w-4xl mx-auto leading-relaxed" // Changed from text-xl md:text-2xl
+          className="text-lg md:text-xl text-slate-300 mb-16 max-w-4xl mx-auto leading-relaxed text-center"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.5 }}
@@ -186,24 +155,25 @@ export default function Hero() {
         </motion.p>
 
         {/* Motion buttons container */}
-        <motion.div 
-          className="flex flex-col items-center justify-center sm:flex-col mt-8 gap-8" // Changed to flex-col and added gap
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 2 }}
-        >
-          {/* Get Your Quote Button */}
-          <Button 
-            onClick={() => scrollToSection('#contact')}
-            className="group relative overflow-hidden bg-primary-kairo hover:bg-blue-600 text-white px-8 py-6 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
-            size="lg"
+        <div className="flex flex-col items-center space-y-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 2 }}
           >
-            <span className="relative z-10 flex items-center">
-              Get Your Quote
-              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
-          </Button>
+            {/* Get Your Quote Button */}
+            <Button 
+              onClick={() => scrollToSection('#contact')}
+              className="group relative overflow-hidden bg-primary-kairo hover:bg-blue-600 text-white px-8 py-6 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+              size="lg"
+            >
+              <span className="relative z-10 flex items-center">
+                Get Your Quote
+                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+            </Button>
+          </motion.div>
 
           {/* Scroll Indicator */}
           <motion.div 
@@ -218,14 +188,11 @@ export default function Hero() {
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
-              <span className="text-xs text-slate-500 uppercase tracking-wider">Scroll</span>
+              <span className="text-xs text-slate-500 uppercase tracking-wider">SCROLL</span>
               <ChevronDown className="text-slate-500" size={20} />
             </motion.div>
           </motion.div>
-        </motion.div>
-
-        {/* Enhanced Scroll Indicator */}
-        
+        </div>
       </motion.div>
     </section>
   );
