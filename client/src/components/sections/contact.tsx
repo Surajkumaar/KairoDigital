@@ -80,13 +80,13 @@ export default function Contact() {
           viewport={{ once: true }}
         >
           <div className="mb-6">
-            <span className="inline-block px-4 py-2 bg-secondary-kairo/10 border border-secondary-kairo/20 rounded-full text-secondary-kairo text-sm font-medium tracking-wide uppercase">
+            <span className="inline-block px-4 py-2 bg-blue-600 border border-blue-500 rounded-full text-white text-sm font-medium tracking-wide uppercase">
               Get In Touch
             </span>
           </div>
           <h2 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
             <span className="block text-white">Let's Build</span>
-            <span className="block gradient-text">Something Great</span>
+            <span className="block text-highlight-blue">Something Great</span>
           </h2>
           <p className="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed">
             Ready to transform your digital presence? Share your vision with us and let's create a growth strategy that delivers real results.
@@ -215,15 +215,15 @@ export default function Contact() {
               <h3 className="text-2xl font-bold mb-6 text-white">Get In Touch</h3>
               <div className="space-y-4">
                 <div className="flex items-center">
-                  <Mail className="text-primary-kairo text-xl mr-4" size={24} />
+                  <Mail className="text-blue-500 text-xl mr-4" size={24} />
                   <span className="text-slate-300">hello@kairodigital.com</span>
                 </div>
                 <div className="flex items-center">
-                  <Phone className="text-primary-kairo text-xl mr-4" size={24} />
+                  <Phone className="text-blue-500 text-xl mr-4" size={24} />
                   <span className="text-slate-300">+1 (555) 123-4567</span>
                 </div>
                 <div className="flex items-center">
-                  <MapPin className="text-primary-kairo text-xl mr-4" size={24} />
+                  <MapPin className="text-blue-500 text-xl mr-4" size={24} />
                   <span className="text-slate-300">Remote-First Agency</span>
                 </div>
               </div>
@@ -241,19 +241,19 @@ export default function Contact() {
               <div className="flex space-x-4">
                 <a 
                   href="#" 
-                  className="w-12 h-12 bg-gradient-to-br from-primary-kairo to-secondary-kairo rounded-lg flex items-center justify-center text-white hover:scale-110 transition-transform"
+                  className="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-blue-500 hover:scale-110 transition-all duration-300"
                 >
                   <Instagram size={24} />
                 </a>
                 <a 
                   href="#" 
-                  className="w-12 h-12 bg-gradient-to-br from-primary-kairo to-secondary-kairo rounded-lg flex items-center justify-center text-white hover:scale-110 transition-transform"
+                  className="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-blue-500 hover:scale-110 transition-all duration-300"
                 >
                   <Linkedin size={24} />
                 </a>
                 <a 
                   href="#" 
-                  className="w-12 h-12 bg-gradient-to-br from-primary-kairo to-secondary-kairo rounded-lg flex items-center justify-center text-white hover:scale-110 transition-transform"
+                  className="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-blue-500 hover:scale-110 transition-all duration-300"
                 >
                   <Twitter size={24} />
                 </a>

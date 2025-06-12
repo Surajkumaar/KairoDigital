@@ -30,9 +30,9 @@ export default function Hero() {
         <motion.div 
           className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px]"
           animate={{ 
-            backgroundPosition: ["0px 0px", "50px 50px", "0px 0px"]
+            backgroundPosition: ["0px 50px", "0px 0px"]
           }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}
         />
       </div>
       

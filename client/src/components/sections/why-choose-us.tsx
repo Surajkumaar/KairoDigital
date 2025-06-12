@@ -35,7 +35,7 @@ export default function WhyChooseUs() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">Why Choose Kairo Digital</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-highlight-blue">Why Choose Kairo Digital</h2>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto">
             What sets us apart in the digital marketing landscape
           </p>

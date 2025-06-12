@@ -11,13 +11,13 @@ export default function Footer() {
               Where Creativity Meets Conversion. Your digital growth partner for meaningful results.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors">
                 <Instagram size={24} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors">
                 <Linkedin size={24} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors">
                 <Twitter size={24} />
               </a>
             </div>

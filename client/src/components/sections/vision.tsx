@@ -6,19 +6,19 @@ const visionItems = [
     icon: TrendingUp,
     title: "Strategy",
     description: "Data-driven approaches that identify opportunities and maximize growth potential.",
-    color: "text-primary-kairo"
+    color: "text-blue-500"
   },
   {
     icon: Brush,
     title: "Design",
     description: "Beautiful, functional designs that capture attention and enhance user experience.",
-    color: "text-secondary-kairo"
+    color: "text-blue-500"
   },
   {
     icon: BookOpen,
     title: "Storytelling",
     description: "Compelling narratives that connect brands with their audience on an emotional level.",
-    color: "text-primary-kairo"
+    color: "text-blue-500"
   }
 ];
 
@@ -33,7 +33,7 @@ export default function Vision() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">Our Vision</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-highlight-blue">Our Vision</h2>
           <blockquote className="text-2xl md:text-3xl text-slate-300 max-w-4xl mx-auto leading-relaxed">
             "We mix strategy, design, and storytelling to help brands grow organically."
           </blockquote>
