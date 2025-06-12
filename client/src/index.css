@@ -7,19 +7,19 @@
 :root {
   --radius: 0.75rem;
 
-  /* Brand Colors - Primary Theme */
-  --kairo-primary: #047BDD;
-  --kairo-secondary: #EF4444;
-  --kairo-slate-800: #1E293B;
-  --kairo-slate-850: #1B2431;
-  --kairo-slate-900: #0F172A;
-  --kairo-slate-950: #020617;
+  /* Brand Colors - Black and White Theme */
+  --kairo-primary: #000000;
+  --kairo-secondary: #333333;
+  --kairo-slate-800: #1A1A1A;
+  --kairo-slate-850: #141414;
+  --kairo-slate-900: #0A0A0A;
+  --kairo-slate-950: #000000;
   --surface-secondary: #FFFFFF;
-  --surface-tertiary: #1E1E1E;
-  --surface-accent: #047BDD;
-  --surface-muted: #0B1217;
-  --surface-light: #F2F2F2;
-  --surface-neutral: #D2D2D2;
+  --surface-tertiary: #1A1A1A;
+  --surface-accent: #000000;
+  --surface-muted: #0A0A0A;
+  --surface-light: #F5F5F5;
+  --surface-neutral: #D4D4D4;
 
   /* Theme mapping */
   --background: var(--kairo-slate-900);
@@ -75,16 +75,20 @@
 
 @layer utilities {
   .gradient-text {
-    background: linear-gradient(135deg, #047BDD, #FF4C60);
+    background: linear-gradient(135deg, #000000, #333333);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
+  .text-highlight-blue {
+    color: #0066ff;
+  }
+
   .bg-pattern {
     background-image: 
-      radial-gradient(circle at 25% 25%, rgba(4, 123, 221, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(255, 76, 96, 0.1) 0%, transparent 50%);
+      radial-gradient(circle at 25% 25%, rgba(0, 0, 0, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(51, 51, 51, 0.1) 0%, transparent 50%);
   }
 
   .shadow-3d {
@@ -195,10 +199,10 @@
 
 @keyframes pulseGlow {
   0% {
-    box-shadow: 0 0 20px rgba(4, 123, 221, 0.4);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
   }
   100% {
-    box-shadow: 0 0 40px rgba(4, 123, 221, 0.8);
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
   }
 }
 

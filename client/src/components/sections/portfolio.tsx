@@ -39,8 +39,8 @@ export default function Portfolio() {
     <section id="portfolio" className="py-32 bg-slate-900 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-40 left-20 w-80 h-80 bg-secondary-kairo/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-32 right-16 w-96 h-96 bg-primary-kairo/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-40 left-20 w-80 h-80 bg-gray-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-32 right-16 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10">

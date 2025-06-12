@@ -36,9 +36,8 @@ export function ChatBot() {
       setMessages((prev) => [...prev, botMessage]);
     }, 1000);
   };
-  return (
-    <div className="flex flex-col h-full bg-white dark:bg-slate-900">
-      <div className="p-4 bg-gradient-to-r from-primary-kairo to-blue-600 text-white">
+  return (    <div className="flex flex-col h-full bg-white dark:bg-black">
+      <div className="p-4 bg-gradient-to-r from-black to-gray-800 text-white">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
             <MessageCircle className="h-6 w-6" />
@@ -59,11 +58,10 @@ export function ChatBot() {
                 message.type === "user" ? "justify-end" : "justify-start"
               }`}
             >
-              <div
-                className={`max-w-[80%] p-3 rounded-lg ${
+              <div                className={`max-w-[80%] p-3 rounded-lg ${
                   message.type === "user"
-                    ? "bg-primary-kairo text-white shadow-lg"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+                    ? "bg-black text-white shadow-lg"
+                    : "bg-gray-100 dark:bg-gray-800 text-black dark:text-white"
                 } animate-in fade-in slide-in-from-bottom-3`}
               >
                 {message.content}
@@ -84,7 +82,7 @@ export function ChatBot() {
           <Button 
             type="submit" 
             size="icon"
-            className="bg-primary-kairo hover:bg-blue-600 text-white"
+            className="bg-black hover:bg-gray-800 text-white"
           >
             <Send className="h-4 w-4" />
           </Button>

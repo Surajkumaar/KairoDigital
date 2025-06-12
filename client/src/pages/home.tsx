@@ -13,7 +13,7 @@ import FloatingActions from "@/components/layout/floating-actions";
 
 export default function Home() {
   return (
-    <div className="bg-slate-800 text-white font-inter overflow-x-hidden">
+    <div className="bg-black text-white font-inter overflow-x-hidden">
       <Navigation />
       <Hero />
       <About />

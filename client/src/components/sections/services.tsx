@@ -20,8 +20,8 @@ const services = [
       "Paid social advertising",
       "Performance analytics"
     ],
-    color: "from-pink-500/20 to-purple-500/20",
-    iconColor: "text-pink-400"
+    color: "from-blue-500/20 to-blue-600/20",
+    iconColor: "text-blue-500"
   },
   {
     icon: Palette,
@@ -33,8 +33,8 @@ const services = [
       "Visual asset creation",
       "Brand positioning strategy"
     ],
-    color: "from-primary-kairo/20 to-blue-400/20",
-    iconColor: "text-primary-kairo"
+    color: "from-blue-500/20 to-blue-600/20",
+    iconColor: "text-blue-500"
   },
   {
     icon: PenTool,
@@ -46,8 +46,8 @@ const services = [
       "Graphic design assets",
       "Content calendar planning"
     ],
-    color: "from-green-500/20 to-emerald-500/20",
-    iconColor: "text-green-400"
+    color: "from-blue-500/20 to-blue-600/20",
+    iconColor: "text-blue-500"
   },
   {
     icon: TrendingUp,
@@ -59,8 +59,8 @@ const services = [
       "Market research & analysis",
       "Growth planning & forecasting"
     ],
-    color: "from-secondary-kairo/20 to-red-400/20",
-    iconColor: "text-secondary-kairo"
+    color: "from-blue-500/20 to-blue-600/20",
+    iconColor: "text-blue-500"
   },
   {
     icon: Lightbulb,
@@ -72,8 +72,8 @@ const services = [
       "Campaign optimization",
       "Team training & workshops"
     ],
-    color: "from-yellow-500/20 to-orange-500/20",
-    iconColor: "text-yellow-400"
+    color: "from-blue-500/20 to-blue-600/20",
+    iconColor: "text-blue-500"
   },
   {
     icon: Rocket,
@@ -85,8 +85,8 @@ const services = [
       "Digital automation",
       "Technology integration"
     ],
-    color: "from-purple-500/20 to-indigo-500/20",
-    iconColor: "text-purple-400"
+    color: "from-blue-500/20 to-blue-600/20",
+    iconColor: "text-blue-500"
   }
 ];
 
@@ -95,8 +95,8 @@ export default function Services() {
     <section id="services" className="py-32 bg-slate-900 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary-kairo/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary-kairo/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-gray-500/5 rounded-full blur-3xl"></div>
       </div>
       
       <div className="container mx-auto px-6 relative z-10">
@@ -108,13 +108,13 @@ export default function Services() {
           viewport={{ once: true }}
         >
           <div className="mb-6">
-            <span className="inline-block px-4 py-2 bg-primary-kairo/10 border border-primary-kairo/20 rounded-full text-primary-kairo text-sm font-medium tracking-wide uppercase">
+            <span className="inline-block px-4 py-2 bg-blue-600 border border-blue-500 rounded-full text-white text-sm font-medium tracking-wide uppercase">
               What We Do
             </span>
           </div>
           <h2 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
             <span className="block text-white">Full-Stack</span>
-            <span className="block gradient-text">Digital Solutions</span>
+            <span className="block text-highlight-blue">Digital Solutions</span>
           </h2>
           <p className="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed">
             From strategy to execution, we deliver comprehensive digital marketing solutions that drive real business growth.
@@ -143,7 +143,7 @@ export default function Services() {
                     <ArrowRight className="text-slate-500 group-hover:text-primary-kairo group-hover:translate-x-1 transition-all duration-300" size={20} />
                   </div>
                   
-                  <h3 className="text-xl font-semibold mb-4 text-white group-hover:text-primary-kairo transition-colors duration-300">
+                  <h3 className="text-xl font-semibold mb-4 text-white group-hover:text-blue-500 transition-colors duration-300">
                     {service.title}
                   </h3>
                   

@@ -22,13 +22,13 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950">
       {/* Enhanced Background with Grid Pattern */}
-      <div className="absolute inset-0 bg-slate-900">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_50%,hsl(221,96%,53%,0.3)_0%,transparent_50%),radial-gradient(circle_at_80%_20%,hsl(4,100%,67%,0.3)_0%,transparent_50%),radial-gradient(circle_at_40%_80%,hsl(221,96%,53%,0.2)_0%,transparent_50%)]"></div>
+      <div className="absolute inset-0 bg-black">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_20%_50%,rgba(255,255,255,0.15)_0%,transparent_50%),radial-gradient(circle_at_80%_20%,rgba(128,128,128,0.15)_0%,transparent_50%),radial-gradient(circle_at_40%_80%,rgba(255,255,255,0.1)_0%,transparent_50%)]"></div>
         
         {/* Animated Grid overlay */}
         <motion.div 
-          className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]"
+          className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px]"
           animate={{ 
             backgroundPosition: ["0px 0px", "50px 50px", "0px 0px"]
           }}
@@ -40,17 +40,17 @@ export default function Hero() {
       <div className="absolute inset-0 overflow-hidden">
         {/* Floating geometric shapes */}
         <motion.div 
-          className="absolute top-20 left-10 w-4 h-4 bg-primary-kairo/30 rounded-full"
+          className="absolute top-20 left-10 w-4 h-4 bg-white/20 rounded-full"
           animate={{ 
             y: [0, -30, 0],
             x: [0, 15, 0],
             scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3]
+            opacity: [0.2, 0.4, 0.2]
           }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div 
-          className="absolute top-40 right-20 w-6 h-6 bg-secondary-kairo/20 rounded-full"
+          className="absolute top-40 right-20 w-6 h-6 bg-gray-500/20 rounded-full"
           animate={{ 
             y: [0, -25, 0],
             x: [0, -10, 0],
@@ -75,22 +75,22 @@ export default function Hero() {
           animate={{ 
             rotate: [0, 360],
             scale: [0.5, 1, 0.5],
-            opacity: [0, 1, 0]
+            opacity: [0, 0.3, 0]
           }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
         >
-          <Sparkles className="text-primary-kairo/30" size={16} />
+          <Sparkles className="text-white/30" size={16} />
         </motion.div>
         <motion.div 
           className="absolute top-1/3 right-1/3"
           animate={{ 
             rotate: [360, 0],
             scale: [0.3, 0.8, 0.3],
-            opacity: [0, 0.8, 0]
+            opacity: [0, 0.4, 0]
           }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 3 }}
         >
-          <Sparkles className="text-secondary-kairo/20" size={12} />
+          <Sparkles className="text-gray-400/20" size={12} />
         </motion.div>
       </div>
 
@@ -125,12 +125,12 @@ export default function Hero() {
             <motion.div className="block text-center w-full">
               <RotatingText
                 texts={[
-                  "Meets suraj",
+                  "Meets Strategy",
                   "Drives Growth",
                   "Creates Impact",
                   "Meets Success"
                 ]}
-                mainClassName="inline-flex px-4 sm:px-6 md:px-8 bg-primary-kairo/10 text-white overflow-hidden py-2 sm:py-3 md:py-4 justify-center rounded-lg"
+                mainClassName="inline-flex px-4 sm:px-6 md:px-8 bg-white/10 text-white overflow-hidden py-2 sm:py-3 md:py-4 justify-center rounded-lg"
                 staggerFrom="last"
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
@@ -164,14 +164,14 @@ export default function Hero() {
             {/* Get Your Quote Button */}
             <Button 
               onClick={() => scrollToSection('#contact')}
-              className="group relative overflow-hidden bg-primary-kairo hover:bg-blue-600 text-white px-8 py-6 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+              className="group relative overflow-hidden bg-white text-black hover:bg-gray-200 px-8 py-6 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
               size="lg"
             >
               <span className="relative z-10 flex items-center">
                 Get Your Quote
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
             </Button>
           </motion.div>
 
