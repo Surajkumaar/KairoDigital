@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import RotatingText from "@/components/ui/rotating-text";
-import PixelTrail from "@/components/ui/pixel-trail";
 import "@/components/ui/rotating-text.css";
 
 
