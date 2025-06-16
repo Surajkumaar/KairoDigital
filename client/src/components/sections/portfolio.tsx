@@ -28,7 +28,7 @@ const portfolioItems = [
 		tags: ["UI Design", "Interaction", "User Experience"],
 	},
 	{
-		title: "Thattu Vadai Set Campaign",
+		title: "Ethnic gourmet Campaign",
 		description:
 			"Local food brand campaign that increased sales by 200% through authentic storytelling and community-focused marketing.",
 		image:

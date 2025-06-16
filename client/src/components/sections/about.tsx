@@ -4,27 +4,27 @@ import { Users, Target, Award, TrendingUp } from "lucide-react";
 const stats = [
   {
     icon: Users,
-    number: "50+",
-    label: "Brands Transformed",
-    description: "Successful partnerships across industries"
+    number: "",
+    label: "Building Partnerships",
+    description: "We believe in collaboration and community"
   },
   {
     icon: TrendingUp,
-    number: "300%",
-    label: "Average Growth",
-    description: "Increase in client conversions"
+    number: "",
+    label: "Growth Oreinted",
+    description: "Quality over quantity"
   },
   {
     icon: Target,
-    number: "95%",
-    label: "Client Retention",
-    description: "Long-term strategic partnerships"
+    number: "",
+    label: "Focused on Results",
+    description: "Data driven strategies and solutions"
   },
   {
     icon: Award,
-    number: "25+",
-    label: "Awards Won",
-    description: "Recognition for creative excellence"
+    number: "",
+    label: "Credibility",
+    description: "Acheiving through excellence and sheer determination"
   }
 ];
 
@@ -55,7 +55,7 @@ export default function About() {
             <span className="block text-highlight-blue">Marketers</span>
           </h2>
           <p className="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed mb-16">
-            We're your growth partner. A team of strategists, creatives, and data scientists who believe that the best marketing happens when creativity meets conversion.
+            We're your growth partner. A team of strategists, creatives and content creators who believe that the best marketing happens when creativity meets conversion.
           </p>
         </motion.div>
 
