@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { ChatBot } from "@/components/ui/chat-bot";
 
 export default function FloatingActions() {
@@ -21,26 +20,14 @@ export default function FloatingActions() {
           data-state={isChatOpen ? "open" : "closed"}
         >
           <MessageCircle size={24} aria-hidden="true" />
-          <span className="sr-only">Chat with Kairo Digital Assistant</span>
+          <span className="sr-only">Chat with Freya, The Kairo's cat</span>
         </Button>
       </div>
 
-      <Drawer 
-        open={isChatOpen} 
-        onOpenChange={setIsChatOpen}
-        aria-label="Chat with Kairo Digital Assistant"
-        shouldScaleBackground={false}
-      >
-        <DrawerContent className="h-[90vh]">
-          <DrawerHeader>
-            <DrawerTitle>Chat with Kairo Digital Assistant</DrawerTitle>
-            <div className="text-sm text-muted-foreground">
-              Ask questions about our services and capabilities
-            </div>
-          </DrawerHeader>
-          <ChatBot />
-        </DrawerContent>
-      </Drawer>
+      <ChatBot 
+        isOpen={isChatOpen} 
+        onClose={() => setIsChatOpen(false)} 
+      />
     </>
   );
 }
