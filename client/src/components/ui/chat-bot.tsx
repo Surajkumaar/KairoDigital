@@ -259,14 +259,31 @@ Remember: You represent Kairo Digital, established in 2025 and based in India. S
   }, []);
   
   // Get API key from environment variables
-  const getApiKey = () => {
+  const getApiKey = async () => {
     try {
-      // Validate that all required environment variables are set
-      validateEnv();
-      return env.OPENROUTER_API_KEY;
+      // First try to get from environment variables
+      if (env.OPENROUTER_API_KEY) {
+        console.log('Using API key from environment variables');
+        return env.OPENROUTER_API_KEY;
+      }
+      
+      // If not available in env, try to fetch from server
+      console.log('Attempting to fetch API key from server...');
+      const response = await fetch('/api/config/api-key');
+      if (!response.ok) {
+        throw new Error(`Failed to fetch API key from server: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      if (!data.apiKey) {
+        throw new Error('API key not provided by server');
+      }
+      
+      console.log('Successfully retrieved API key from server');
+      return data.apiKey;
     } catch (error) {
-      console.error('Environment validation error:', error);
-      throw new Error('API key not available. Please check your environment configuration.');
+      console.error('API key retrieval error:', error);
+      throw new Error('API key not available. Please check your VITE_OPENROUTER_API_KEY in .env file.');
     }
   };
 
@@ -285,7 +302,11 @@ Remember: You represent Kairo Digital, established in 2025 and based in India. S
       });
       
       // Get API key - this will throw an error if not found
-      const apiKey = getApiKey();
+      const apiKey = await getApiKey();
+      
+      if (!apiKey) {
+        throw new Error('No API key available. Please check your VITE_OPENROUTER_API_KEY in .env file.');
+      }
       
       // Debug: Log API key status (safely)
       console.log('API key status:', {
@@ -297,12 +318,24 @@ Remember: You represent Kairo Digital, established in 2025 and based in India. S
       // Debug: Log request details (without sensitive data)
       console.log('Making API request to OpenRouter');
       
+      // Ensure API key is properly formatted (trim any whitespace)
+      const formattedApiKey = apiKey.trim();
+      
+      // Log the request URL and headers (without showing the full API key)
+      console.log('Request URL:', 'https://openrouter.ai/api/v1/chat/completions');
+      console.log('Request headers:', {
+        contentType: 'application/json',
+        authHeaderPrefix: 'Bearer ' + (formattedApiKey.substring(0, 3) + '...'),
+        referer: window.location.origin,
+        title: 'Kairo Digital Assistant'
+      });
+      
       const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`,
-            "HTTP-Referer": `${window.location.origin}`,
+            "Authorization": `Bearer ${formattedApiKey}`,
+            "HTTP-Referer": window.location.origin,
             "X-Title": "Kairo Digital Assistant"
           },
         body: JSON.stringify({

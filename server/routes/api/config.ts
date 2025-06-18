@@ -25,12 +25,25 @@ router.get("/api-key", (req, res) => {
     });
   }
   
+  // Ensure the API key is properly formatted (trim any whitespace)
+  const formattedApiKey = apiKey.trim();
+  
+  // Validate that the API key looks reasonable
+  if (formattedApiKey.length < 10) {
+    return res.status(500).json({
+      error: "API key appears to be invalid (too short). Please check your VITE_OPENROUTER_API_KEY in .env file."
+    });
+  }
+  
   // In production, you would add authentication here
   // For now, we're providing the key directly, but in a real app
   // you would verify the user is authenticated before providing the key
   
+  // Log that the API key was successfully retrieved (without showing the key)
+  console.log(`API key successfully retrieved. Key length: ${formattedApiKey.length}`);
+  
   res.json({ 
-    apiKey 
+    apiKey: formattedApiKey 
   });
 });
 
