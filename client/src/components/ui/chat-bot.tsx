@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { Send, MessageCircle } from "lucide-react";
 import { Button } from "./button";
 import { Input } from "./input";
-import { ScrollArea } from "./scroll-area";
 import { env, validateEnv } from "../../lib/env";
 
 // Function to convert plain text with markdown-like syntax to HTML
@@ -273,8 +272,30 @@ Remember: You represent Kairo Digital, established in 2025 and based in India. S
 
   const processMessage = async (message: string) => {
     try {
+      // Debug: Log environment variable status safely with proper checks
+      console.log('Environment check:', {
+        envExists: typeof import.meta !== 'undefined' && typeof import.meta.env !== 'undefined',
+        apiKeyExists: typeof import.meta !== 'undefined' && 
+                     typeof import.meta.env !== 'undefined' && 
+                     typeof import.meta.env.VITE_OPENROUTER_API_KEY !== 'undefined',
+        apiKeyLength: typeof import.meta !== 'undefined' && 
+                     typeof import.meta.env !== 'undefined' && 
+                     import.meta.env.VITE_OPENROUTER_API_KEY ? 
+                     String(import.meta.env.VITE_OPENROUTER_API_KEY).length : 0
+      });
+      
       // Get API key - this will throw an error if not found
       const apiKey = getApiKey();
+      
+      // Debug: Log API key status (safely)
+      console.log('API key status:', {
+        exists: !!apiKey,
+        length: apiKey ? apiKey.length : 0,
+        firstChars: apiKey && apiKey.length > 5 ? apiKey.substring(0, 5) + '...' : 'none'
+      });
+      
+      // Debug: Log request details (without sensitive data)
+      console.log('Making API request to OpenRouter');
       
       const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
@@ -297,27 +318,72 @@ Remember: You represent Kairo Digital, established in 2025 and based in India. S
         })
       });
       
+      // Debug: Log response status
+      console.log('API response status:', response.status, response.statusText);
+      
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        const errorMessage = errorData.error?.message || `API request failed with status ${response.status}`;
-        throw new Error(errorMessage);
+        // Try to get detailed error information
+        let errorDetail = '';
+        try {
+          const errorText = await response.text();
+          console.error('API error response:', errorText);
+          
+          try {
+            const errorData = JSON.parse(errorText);
+            errorDetail = errorData.error?.message || errorData.message || errorText;
+          } catch (parseError) {
+            errorDetail = errorText;
+          }
+        } catch (readError) {
+          console.error('Failed to read error response:', readError);
+          errorDetail = 'Unknown error';
+        }
+        
+        throw new Error(`API request failed with status ${response.status}: ${errorDetail}`);
       }
 
-      const data = await response.json();
-      return data.choices[0]?.message?.content || "I apologize, but I couldn't generate a response.";
+      // Parse the successful response
+      let data;
+      try {
+        data = await response.json();
+        console.log('API response data structure:', Object.keys(data));
+      } catch (parseError) {
+        console.error('Failed to parse API response:', parseError);
+        throw new Error('Failed to parse API response');
+      }
+      
+      // Extract the message content
+      const messageContent = data.choices?.[0]?.message?.content;
+      if (!messageContent) {
+        console.warn('No message content in API response:', data);
+      }
+      
+      return messageContent || "I apologize, but I couldn't generate a response.";
       
     } catch (error: any) {
+      // Detailed error logging
       console.error('Error in chat interaction:', error);
+      console.error('Error details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      });
       
       let errorMessage = "I'm sorry, I encountered an error processing your request.";
       
       // Provide more specific error messages based on the error
       if (error.message?.includes("API key")) {
-        errorMessage = "API key error: Please check that VITE_OPENROUTER_API_KEY is correctly set in your .env or .env.local file without quotes.";
+        errorMessage = "API key error: Please check that VITE_OPENROUTER_API_KEY is correctly set in your .env file. Current status: " + 
+          (typeof import.meta !== 'undefined' && 
+           typeof import.meta.env !== 'undefined' && 
+           import.meta.env.VITE_OPENROUTER_API_KEY ? "Key exists but may be invalid" : "Key not found");
       } else if (error.message?.includes("429")) {
         errorMessage = "Rate limit exceeded: The API is receiving too many requests. Please try again in a moment.";
       } else if (error.message?.includes("401") || error.message?.includes("403")) {
-        errorMessage = "Authentication error: Your API key may be invalid or expired. Please check your VITE_OPENROUTER_API_KEY in .env or .env.local.";
+        errorMessage = "Authentication error: Your API key may be invalid or expired. Please check your VITE_OPENROUTER_API_KEY in .env file.";
+      } else if (error.message) {
+        // Include the actual error message for better debugging
+        errorMessage = `Error: ${error.message}`;
       }
       
       return errorMessage;
