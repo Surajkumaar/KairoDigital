@@ -3,8 +3,11 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertContactMessageSchema } from "@shared/schema";
 import { z } from "zod";
+import configRoutes from "./routes/api/config";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Register the config API routes
+  app.use("/api/config", configRoutes);
   // Contact form submission endpoint
   app.post("/api/contact", async (req, res) => {
     try {

@@ -29,6 +29,7 @@ export default function FloatingActions() {
         open={isChatOpen} 
         onOpenChange={setIsChatOpen}
         aria-label="Chat with Kairo Digital Assistant"
+        shouldScaleBackground={false}
       >
         <DrawerContent className="h-[90vh]">
           <DrawerHeader>
