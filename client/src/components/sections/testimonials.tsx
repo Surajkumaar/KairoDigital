@@ -5,8 +5,7 @@ import Balatro from "../ui/balatro";
 const testimonial = {
   name: "Coming Soon",
   company: "Client Testimonials",
-  quote: "Hold up folks ! , Rome was'tn built in a day nor our client's success stories and results.",
-  image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=100"
+  quote: "Hold up folks ! , Rome was'tn built in a day nor our client's success stories and results."
 };
 
 export default function Testimonials() {

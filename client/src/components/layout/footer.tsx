@@ -13,13 +13,13 @@ export default function Footer() {
               Where Creativity Meets Conversion. Your digital growth partner for meaningful results.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors">
+              <a href="https://www.instagram.com/kairo_digital_?igsh=MW05anJrYTN1emV1ZA==" className="text-gray-400 hover:text-blue-500 transition-colors">
                 <Instagram size={24} />
               </a>
               <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors">
                 <Linkedin size={24} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors">
+              <a href="https://x.com/Kairo_Digital" className="text-gray-400 hover:text-blue-500 transition-colors">
                 <Twitter size={24} />
               </a>
             </div>
@@ -39,7 +39,7 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-4">Company</h4>
             <ul className="space-y-2 text-gray-400">
               <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Portfolio</a></li>
+              <li><a href="https://chatgpt.com/" className="hover:text-white transition-colors">Portfolio</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
             </ul>

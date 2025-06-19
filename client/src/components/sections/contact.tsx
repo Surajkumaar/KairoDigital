@@ -216,11 +216,11 @@ export default function Contact() {
               <div className="space-y-4">
                 <div className="flex items-center">
                   <Mail className="text-blue-500 text-xl mr-4" size={24} />
-                  <span className="text-slate-300">hello@kairodigital.com</span>
+                  <span className="text-slate-300">kairoxdigital@gmail.com</span>
                 </div>
                 <div className="flex items-center">
                   <Phone className="text-blue-500 text-xl mr-4" size={24} />
-                  <span className="text-slate-300">+1 (555) 123-4567</span>
+                  <span className="text-slate-300">+91 8939651621</span>
                 </div>
                 <div className="flex items-center">
                   <MapPin className="text-blue-500 text-xl mr-4" size={24} />
@@ -240,7 +240,7 @@ export default function Contact() {
               <h3 className="text-2xl font-bold mb-6 text-white">Follow Our Journey</h3>
               <div className="flex space-x-4">
                 <a 
-                  href="#" 
+                  href="https://www.instagram.com/kairo_digital_?igsh=MW05anJrYTN1emV1ZA==" 
                   className="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-blue-500 hover:scale-110 transition-all duration-300"
                 >
                   <Instagram size={24} />
@@ -252,7 +252,7 @@ export default function Contact() {
                   <Linkedin size={24} />
                 </a>
                 <a 
-                  href="#" 
+                  href="https://x.com/Kairo_Digital" 
                   className="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-blue-500 hover:scale-110 transition-all duration-300"
                 >
                   <Twitter size={24} />
