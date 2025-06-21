@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
 import { Mail, Phone, MapPin, Instagram, Linkedin, Twitter, Download, Calendar, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,12 +10,25 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
+import emailjs from '@emailjs/browser';
+
+// Your EmailJS configuration
+const EMAILJS_SERVICE_ID = "service_suiwzvo"; // Replace with your EmailJS service ID
+const EMAILJS_TEMPLATE_ID = "template_rcdr6u6"; // Replace with your EmailJS template ID
+const EMAILJS_PUBLIC_KEY = "SrNqaWyHUI5wdvGrt"; // Replace with your EmailJS public key
+const EMAILJS_ACK_TEMPLATE_ID = "template_mvs1kns"; // Add your acknowledgement template ID here
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
-  growthType: z.string().min(1, "Please select your primary need"),
+  phone: z
+    .string()
+    .min(7, "Please enter a valid phone number")
+    .max(20, "Please enter a valid phone number")
+    .refine(
+      (val) => val.trim() === '' || /^[0-9+\-\s()]+$/.test(val),
+      { message: "Please enter a valid phone number" }
+    ),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
@@ -29,37 +41,81 @@ export default function Contact() {
     defaultValues: {
       name: "",
       email: "",
-      growthType: "",
+      phone: "",
       message: "",
-    },
-  });
-
-  const contactMutation = useMutation({
-    mutationFn: async (data: z.infer<typeof formSchema>) => {
-      const response = await apiRequest("POST", "/api/contact", data);
-      return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "Message sent successfully!",
-        description: "We'll get back to you within 24 hours.",
-      });
-      form.reset();
-      setIsSubmitting(false);
-    },
-    onError: () => {
-      toast({
-        title: "Failed to send message",
-        description: "Please try again or contact us directly.",
-        variant: "destructive",
-      });
-      setIsSubmitting(false);
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
-    contactMutation.mutate(values);
+    try {
+      // Make sure your EmailJS template uses ${from_name} and ${from_email}
+      const templateParams = {
+        from_name: values.name,
+        from_email: values.email,
+        phone: values.phone,
+        message: values.message,
+      };
+      console.log('EmailJS templateParams:', templateParams); // Debug: check what is sent
+
+      // Send main email to you
+      const response = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
+
+      // Send acknowledgement email to client
+      const ackParams = {
+        from_name: values.name,
+        from_email: values.email,
+        phone: values.phone,
+        message: values.message,
+      };
+      console.log('Ack email params:', ackParams); // Debug: log ack params
+      try {
+        const ackResponse = await emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_ACK_TEMPLATE_ID,
+          ackParams,
+          EMAILJS_PUBLIC_KEY
+        );
+        console.log('Ack email response:', ackResponse); // Debug: check ack response
+      } catch (ackError) {
+        console.error('Error sending acknowledgement email:', ackError);
+        if (ackError && ackError.text) {
+          toast({
+            title: "Failed to send acknowledgement email",
+            description: ackError.text,
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Failed to send acknowledgement email",
+            description: "Please check your template variables and EmailJS settings.",
+            variant: "destructive",
+          });
+        }
+      }
+
+      if (response.status === 200) {
+        toast({
+          title: "Message sent successfully!",
+          description: "We'll get back to you within 24 hours. An acknowledgement email has been sent to your address.",
+        });
+        form.reset();
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      toast({
+        title: "Failed to send message",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -143,24 +199,18 @@ export default function Contact() {
 
                 <FormField
                   control={form.control}
-                  name="growthType"
+                  name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-300">What kind of growth are you looking for?</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="bg-slate-800 border-slate-600 text-white">
-                            <SelectValue placeholder="Select your primary need" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="brand-awareness">Brand Awareness</SelectItem>
-                          <SelectItem value="lead-generation">Lead Generation</SelectItem>
-                          <SelectItem value="sales-growth">Sales Growth</SelectItem>
-                          <SelectItem value="social-media">Social Media Presence</SelectItem>
-                          <SelectItem value="digital-transformation">Complete Digital Transformation</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <FormLabel className="text-slate-300">Phone Number</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="tel"
+                          placeholder="Your phone number"
+                          className="bg-slate-800 border-slate-600 text-white"
+                          {...field}
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -171,10 +221,9 @@ export default function Contact() {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-300">Tell us about your project</FormLabel>
+                      <FormLabel className="text-slate-300">Describe your goals and challenges</FormLabel>
                       <FormControl>
                         <Textarea 
-                          placeholder="Describe your goals and challenges..."
                           className="bg-slate-800 border-slate-600 text-white"
                           rows={4}
                           {...field}
