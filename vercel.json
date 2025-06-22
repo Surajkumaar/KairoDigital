@@ -2,11 +2,6 @@
   "buildCommand": "npm run build",
   "outputDirectory": "../dist",
   "framework": "vite",
-  "routes": [
-    { "src": "/under-development", "dest": "/under-development.html" },
-    { "src": "/gif/(.*)", "dest": "/gif/$1" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/$1" },
-    { "src": "/.*", "dest": "/index.html" }
-  ]
+  "cleanUrls": true,
+  "trailingSlash": false
 }
