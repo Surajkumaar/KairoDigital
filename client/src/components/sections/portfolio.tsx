@@ -194,7 +194,12 @@ export default function Portfolio() {
 								Start Your Project
 								<ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
 							</button>
-							<button className="group inline-flex items-center px-8 py-4 bg-transparent border-2 border-slate-600 text-slate-300 hover:border-secondary-kairo hover:text-secondary-kairo rounded-full font-semibold transition-all duration-300">
+							<button
+								className="group inline-flex items-center px-8 py-4 bg-transparent border-2 border-slate-600 text-slate-300 hover:border-secondary-kairo hover:text-secondary-kairo rounded-full font-semibold transition-all duration-300"
+								onClick={() => {
+									window.location.href = "/under-development";
+								}}
+							>
 								View Full Portfolio
 								<ExternalLink className="ml-2 group-hover:scale-110 transition-transform" size={18} />
 							</button>

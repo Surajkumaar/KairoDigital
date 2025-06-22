@@ -5,7 +5,7 @@ import Balatro from "../ui/balatro";
 const testimonial = {
   name: "Coming Soon",
   company: "Client Testimonials",
-  quote: "Hold up folks ! , Rome was'tn built in a day nor our client's success stories and results."
+  quote: "Hold up folks ! , Rome wasn't built in a day nor our client's success stories and results."
 };
 
 export default function Testimonials() {

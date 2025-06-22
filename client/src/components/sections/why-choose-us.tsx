@@ -19,8 +19,8 @@ const features = [
   },
   {
     icon: Handshake,
-    title: "Franchise-Friendly",
-    description: "Commission-based growth plans that align our success with yours."
+    title: "MSME friendly",
+    description: "Conversion-based growth plans that align our success with yours."
   }
 ];
 

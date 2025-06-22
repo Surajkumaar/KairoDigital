@@ -41,7 +41,7 @@ const services = [
     title: "Content Creation",
     description: "Compelling content that tells your brand story and drives customer action across all channels.",
     features: [
-      "Blog & article writing",
+      "Video post production",
       "Video content production",
       "Graphic design assets",
       "Content calendar planning"
@@ -54,7 +54,7 @@ const services = [
     title: "Growth Strategy & Analytics",
     description: "Data-driven strategies that optimize your marketing efforts and maximize ROI.",
     features: [
-      "Performance tracking & KPIs",
+      "Performance tracking",
       "Conversion optimization",
       "Market research & analysis",
       "Growth planning & forecasting"
@@ -70,7 +70,7 @@ const services = [
       "Marketing audits & assessments",
       "Strategic planning sessions",
       "Campaign optimization",
-      "Team training & workshops"
+      "Micro influencer support"
     ],
     color: "from-blue-500/20 to-blue-600/20",
     iconColor: "text-blue-500"
