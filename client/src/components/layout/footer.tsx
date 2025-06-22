@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
             <div className="text-3xl font-bold text-white mb-4">
-              <img src="/src/assests/Primary Logo_2 - Transparent.png" alt="Kairo Digital" className="h-12" />
+              <img src="/assets/Primary Logo_2 - Transparent.png" alt="Kairo Digital" className="h-12" />
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
               Where Creativity Meets Conversion. Your digital growth partner for meaningful results.
@@ -47,7 +47,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 Kairo Digital. All rights reserved. | Privacy Policy | Terms of Service</p>
+          <p>&copy; 2025 Kairo Digital. All rights reserved. | Privacy Policy | Terms of Service</p>
         </div>
       </div>
     </footer>
