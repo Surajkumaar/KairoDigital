@@ -1,3 +1,4 @@
-import UnderDevelopment from "@/pages/UnderDevelopment";
+import React from 'react';
+import UnderDevelopmentPage from "./UnderDevelopment";
 
-export default UnderDevelopment;
+export default UnderDevelopmentPage;

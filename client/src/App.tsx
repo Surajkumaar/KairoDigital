@@ -12,7 +12,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/under-development" component={UnderDevelopment} />
-      <Route component={NotFound} />
+      <Route path="/:path*" component={NotFound} />
     </Switch>
   );
 }

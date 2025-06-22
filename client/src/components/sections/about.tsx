@@ -106,7 +106,7 @@ export default function About() {
             </div>
             <div>
               <p className="text-white font-semibold">Kairo Digital Team</p>
-              <p className="text-slate-400 text-sm">Founded 2020</p>
+              <p className="text-slate-400 text-sm">Founded 2025</p>
             </div>
           </div>
         </motion.div>
