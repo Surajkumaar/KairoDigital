@@ -3,10 +3,10 @@
   "outputDirectory": "../dist",
   "framework": "vite",
   "routes": [
-    { "src": "/under-development", "dest": "/index.html" },
+    { "src": "/under-development", "dest": "/under-development.html" },
     { "src": "/gif/(.*)", "dest": "/gif/$1" },
-    { "src": "/(.*)", "dest": "/$1" },
     { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/$1" },
     { "src": "/.*", "dest": "/index.html" }
   ]
 }
