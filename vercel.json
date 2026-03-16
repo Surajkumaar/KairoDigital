@@ -8,6 +8,14 @@
     {
       "source": "/portfolio",
       "destination": "/index.html"
+    },
+    {
+      "source": "/portfolio/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/portfolio/:path*",
+      "destination": "/index.html"
     }
   ]
 }
