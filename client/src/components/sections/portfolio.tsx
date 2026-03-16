@@ -197,7 +197,7 @@ export default function Portfolio() {
 							<button
 								className="group inline-flex items-center px-8 py-4 bg-transparent border-2 border-slate-600 text-slate-300 hover:border-secondary-kairo hover:text-secondary-kairo rounded-full font-semibold transition-all duration-300"
 								onClick={() => {
-									window.location.href = "/under-development";
+									window.location.href = "/portfolio";
 								}}
 							>
 								View Full Portfolio

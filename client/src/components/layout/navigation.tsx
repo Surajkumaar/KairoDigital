@@ -63,6 +63,12 @@ export default function Navigation() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-kairo to-secondary-kairo group-hover:w-full transition-all duration-300"></span>
               </button>
             ))}
+            <a
+              href="/portfolio"
+              className="text-slate-300 hover:text-white transition-colors duration-300 font-medium tracking-wide"
+            >
+              Portfolio Page
+            </a>
             <Button
               onClick={() => scrollToSection("#contact")}
               className="bg-primary-kairo hover:bg-blue-600 text-white px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105"
@@ -118,6 +124,12 @@ export default function Navigation() {
                   {link.label}
                 </button>
               ))}
+              <a
+                href="/portfolio"
+                className="text-left text-slate-300 hover:text-white transition-colors duration-300 font-medium text-lg"
+              >
+                Portfolio Page
+              </a>
               <Button
                 onClick={() => scrollToSection("#contact")}
                 className="w-full bg-primary-kairo hover:bg-blue-600 text-white px-6 py-3 rounded-full font-medium transition-all duration-300 mt-4"
