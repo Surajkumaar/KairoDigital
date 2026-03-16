@@ -3,8 +3,5 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "cleanUrls": true,
-  "trailingSlash": false,
-  "errorPages": {
-    "404": "/index.html"
-  }
+  "trailingSlash": false
 }
