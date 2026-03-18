@@ -58,6 +58,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Google Drive image proxy endpoint
+  app.get("/api/drive-image/:fileId", async (req, res) => {
+    try {
+      const { fileId } = req.params;
+      if (!fileId || fileId.length < 20) {
+        return res.status(400).json({ error: "Invalid file ID" });
+      }
+
+      // Use the Direct Download URL format for Google Drive files
+      const driveImageUrl = `https://drive.google.com/uc?id=${fileId}&export=view&confirm=t`;
+      
+      const response = await fetch(driveImageUrl, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        },
+      });
+
+      if (!response.ok) {
+        return res.status(response.status).json({ error: "Failed to fetch image from Google Drive" });
+      }
+
+      const buffer = await response.arrayBuffer();
+      const contentType = response.headers.get("content-type") || "image/jpeg";
+      
+      res.set("Content-Type", contentType);
+      res.set("Cache-Control", "public, max-age=86400"); // Cache for 24 hours
+      res.send(Buffer.from(buffer));
+    } catch (error) {
+      console.error("Drive image proxy error:", error);
+      res.status(500).json({ error: "Failed to proxy image" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

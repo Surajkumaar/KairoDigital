@@ -62,6 +62,14 @@ function getDriveFileId(url: string): string | null {
 
   try {
     const parsed = new URL(trimmed);
+    
+    // Check for direct export URLs: drive.google.com/uc?export=view&id=...
+    if (parsed.pathname === "/uc") {
+      const id = parsed.searchParams.get("id");
+      if (id) return id;
+    }
+    
+    // Check for standard file URLs: /file/d/ID/view
     const directMatch = parsed.pathname.match(/\/file\/d\/([^/]+)/);
     return directMatch?.[1] || parsed.searchParams.get("id");
   } catch {
@@ -70,6 +78,9 @@ function getDriveFileId(url: string): string | null {
 }
 
 function getDriveThumbnailUrl(url: string): string | null {
+  const trimmed = url.trim();
+  if (!trimmed) return null;
+  
   const fileId = getDriveFileId(url);
   if (!fileId) return null;
   return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1280`;
@@ -79,6 +90,11 @@ function getResolvedPosterImage(path: string | undefined, index: number): string
   const raw = path?.trim();
   if (!raw) {
     return `https://placehold.co/600x800/2563eb/ffffff?text=Poster+${index + 1}`;
+  }
+
+  // Direct export URLs work as-is for images
+  if (raw.includes("drive.google.com/uc?export=download") || raw.includes("drive.google.com/uc?export=view")) {
+    return raw;
   }
 
   if (raw.includes("drive.google.com")) {
@@ -108,41 +124,42 @@ const posters: PosterItem[] = Array.from({ length: totalItems }, (_, index) => (
 }));
 
 const videos: VideoItem[] = videoLinks.map((videoLink, index) => {
-    const rawValue = videoLink?.trim() || "";
+  const rawValue = videoLink?.trim() || "";
   const validDrive = !isPlaceholderValue(rawValue);
 
-    const driveUrl = !validDrive
-      ? undefined
-      : rawValue.includes("drive.google.com")
-        ? rawValue
-        : `https://drive.google.com/file/d/${rawValue}/view?usp=sharing`;
+  const driveUrl = !validDrive
+    ? undefined
+    : rawValue.includes("drive.google.com")
+      ? rawValue
+      : `https://drive.google.com/file/d/${rawValue}/view?usp=sharing`;
 
-    const explicitThumbnail = videoThumbnailPaths[index]?.trim();
-    const validExplicitThumbnail = !isPlaceholderValue(explicitThumbnail);
+  // Get explicit thumbnail from config
+  const explicitThumbnail = videoThumbnailPaths[index]?.trim();
+  const validExplicitThumbnail = !isPlaceholderValue(explicitThumbnail);
 
-    const normalizedExplicitThumbnail = !validExplicitThumbnail
-      ? undefined
-      : explicitThumbnail.includes("drive.google.com")
-        ? (getDriveThumbnailUrl(explicitThumbnail) || undefined)
-        : explicitThumbnail;
+  // Use explicit thumbnail if available, otherwise derive from video
+  let thumbnail: string;
+  if (validExplicitThumbnail) {
+    // If it's already a weserv or direct URL, use it as-is
+    // Otherwise if it's Google Drive, get the thumbnail URL
+    if (explicitThumbnail.includes("weserv.nl") || !explicitThumbnail.includes("drive.google.com")) {
+      thumbnail = explicitThumbnail;
+    } else {
+      thumbnail = getDriveThumbnailUrl(explicitThumbnail) || getDefaultVideoThumbnail(index);
+    }
+  } else {
+    // Fallback to deriving from video link or use default
+    thumbnail = (driveUrl ? getDriveThumbnailUrl(driveUrl) : null) || getDefaultVideoThumbnail(index);
+  }
 
-    const isPlaceholderThumbnail =
-      !!normalizedExplicitThumbnail &&
-      normalizedExplicitThumbnail.includes("placehold.co");
-
-    const derivedDriveThumbnail = driveUrl ? getDriveThumbnailUrl(driveUrl) : null;
-
-    return {
-      id: index + 1,
-      title: videoNames[index] || `Video ${index + 1}`,
-      thumbnail:
-        (isPlaceholderThumbnail ? undefined : normalizedExplicitThumbnail) ||
-        derivedDriveThumbnail ||
-        getDefaultVideoThumbnail(index),
-      driveUrl,
-      isPlayable: !!driveUrl,
-    };
-  });
+  return {
+    id: index + 1,
+    title: videoNames[index] || `Video ${index + 1}`,
+    thumbnail,
+    driveUrl,
+    isPlayable: !!driveUrl,
+  };
+});
 
 const websites: WebsiteItem[] = websiteLinks.map((websiteUrl, index) => ({
   id: index + 1,
@@ -164,6 +181,21 @@ function getDrivePreviewUrl(url: string): string {
   try {
     const parsed = new URL(trimmed);
     const resourceKey = parsed.searchParams.get("resourcekey");
+    
+    // Handle direct export URLs
+    if (parsed.pathname === "/uc") {
+      const fileId = parsed.searchParams.get("id");
+      if (fileId) {
+        const preview = new URL(`https://drive.google.com/file/d/${fileId}/preview`);
+        if (resourceKey) {
+          preview.searchParams.set("resourcekey", resourceKey);
+        }
+        preview.searchParams.set("embedded", "true");
+        return preview.toString();
+      }
+    }
+    
+    // Handle standard file URLs
     const directMatch = parsed.pathname.match(/\/file\/d\/([^/]+)/);
     const fileId = directMatch?.[1] || parsed.searchParams.get("id");
 
