@@ -506,21 +506,6 @@ export default function PortfolioPage() {
                 </div>
               )}
             </div>
-
-            {selectedVideo.driveUrl && (
-              <div className="p-4 border-t border-slate-800 flex justify-between items-center">
-                <p className="text-slate-300 text-sm">Now Playing: {selectedVideo.title}</p>
-                <a
-                  href={selectedVideo.driveUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 text-sm"
-                >
-                  Open in Drive
-                  <ExternalLink size={14} />
-                </a>
-              </div>
-            )}
           </div>
         </div>
       )}
