@@ -73,21 +73,23 @@ export default function AdminPage() {
 
       // Parse and validate data
       const portfolioItems: PortfolioItem[] = rows.map((row: any) => {
-        const type = (row.Type || row.type || "poster").toLowerCase().trim();
+        const type = String(row.Type || row.type || "poster").toLowerCase().trim();
         
         // Validate type
         if (!["poster", "video", "website"].includes(type)) {
           console.warn(`Invalid type: "${type}", defaulting to "poster"`);
         }
 
+        const safeString = (val: any) => (val === undefined || val === null ? "" : String(val)).trim();
+
         return {
-          title: (row.Title || row.title || "Untitled").trim(),
-          description: (row.Description || row.description || "").trim(),
+          title: safeString(row.Title || row.title || "Untitled"),
+          description: safeString(row.Description || row.description),
           type: (["poster", "video", "website"].includes(type) ? type : "poster") as "poster" | "video" | "website",
-          imageUrl: (row["Image URL"] || row.imageUrl || "").trim(),
-          videoUrl: (row["Video URL"] || row.videoUrl || "").trim(),
-          videoThumbnail: (row["Video Thumbnail"] || row.videoThumbnail || "").trim(),
-          websiteUrl: (row["Website URL"] || row.websiteUrl || "").trim(),
+          imageUrl: safeString(row["Image URL"] || row.imageUrl),
+          videoUrl: safeString(row["Video URL"] || row.videoUrl),
+          videoThumbnail: safeString(row["Video Thumbnail"] || row.videoThumbnail),
+          websiteUrl: safeString(row["Website URL"] || row.websiteUrl),
         };
       });
 
@@ -101,6 +103,10 @@ export default function AdminPage() {
         },
         body: JSON.stringify({ items: portfolioItems }),
       });
+
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+      }
 
       const result = await response.json();
 
@@ -120,9 +126,9 @@ export default function AdminPage() {
         setMessage(result.message || "Failed to upload items");
         setMessageType("error");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error processing file:", error);
-      setMessage("Error processing Excel file. Please check the format and try again.");
+      setMessage(`Error: ${error.message || "Please check the format and try again."}`);
       setMessageType("error");
     } finally {
       setIsLoading(false);
