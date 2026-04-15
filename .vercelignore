@@ -1,0 +1,13 @@
+.git
+.gitignore
+.env.local
+.env.example
+node_modules
+npm-debug.log
+yarn-error.log
+.DS_Store
+.next
+.vscode
+.idea
+*.log
+dist
