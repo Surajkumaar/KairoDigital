@@ -3,6 +3,11 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
+
+// Set environment explicitly based on NODE_ENV
+const isDevelopment = process.env.NODE_ENV === "development";
+app.set("env", isDevelopment ? "development" : "production");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -51,8 +56,10 @@ app.use((req, res, next) => {
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
   if (app.get("env") === "development") {
+    log("Starting in development mode with Vite HMR");
     await setupVite(app, server);
   } else {
+    log("Starting in production mode with static file serving");
     serveStatic(app);
   }
 
@@ -64,5 +71,7 @@ app.use((req, res, next) => {
     reusePort: true,
   }, () => {
     log(`serving on port ${port}`);
+    log(`environment: ${app.get("env")}`);
+    log(`NODE_ENV: ${process.env.NODE_ENV}`);
   });
 })();

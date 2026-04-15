@@ -68,33 +68,47 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
-  // In production on Vercel, all files (client + server) are in the dist directory
-  // Use a simple path from the working directory
-  let distPath = path.resolve("dist");
+  // Get the dist directory path
+  // On Vercel, working directory is the project root
+  const distPath = path.join(process.cwd(), "dist");
+
+  console.log(`[serve-static] Looking for build at: ${distPath}`);
+  console.log(`[serve-static] Current working directory: ${process.cwd()}`);
+
+  if (!fs.existsSync(distPath)) {
+    const errorMsg = `Build directory not found at ${distPath}`;
+    console.error(`[serve-static] ERROR: ${errorMsg}`);
+    // Don't throw - instead serve a 404 page for now
+    app.use("*", (_req, res) => {
+      res.status(500).send(`<pre>${errorMsg}\n\nContents of ${process.cwd()}:\n${fs.readdirSync(process.cwd()).join('\n')}</pre>`);
+    });
+    return;
+  }
+
+  // Check for index.html
+  const indexPath = path.join(distPath, "index.html");
+  const hasIndex = fs.existsSync(indexPath);
   
-  // Fallback if dist doesn't exist in working directory
-  if (!fs.existsSync(distPath)) {
-    distPath = path.resolve(import.meta.dirname, "..", "dist");
-  }
-
-  if (!fs.existsSync(distPath)) {
-    throw new Error(
-      `Could not find the build directory at ${distPath}, make sure to build first`,
-    );
-  }
-
-  console.log(`[serve-static] Serving static files from: ${distPath}`);
+  console.log(`[serve-static] index.html exists: ${hasIndex}`);
+  console.log(`[serve-static] Contents of dist: ${fs.readdirSync(distPath).join(", ")}`);
 
   // Serve static assets (CSS, JS, images, etc)
-  app.use(express.static(distPath));
+  // First priority: explicit asset serving
+  app.use("/assets", express.static(path.join(distPath, "assets")));
+  
+  // Serve all other static files
+  app.use(express.static(distPath, {
+    maxAge: "1d",
+    etag: false,
+  }));
 
-  // Fall through to index.html for all other routes (SPA routing)
-  app.use("*", (_req, res) => {
-    const indexPath = path.resolve(distPath, "index.html");
-    if (fs.existsSync(indexPath)) {
-      res.sendFile(indexPath);
-    } else {
-      res.status(404).send("index.html not found");
+  // SPA fallback - serve index.html for all other routes
+  app.use("*", (req, res) => {
+    if (!hasIndex) {
+      return res.status(404).send("index.html not found in build");
     }
+    
+    console.log(`[serve-static] Serving SPA fallback for: ${req.path}`);
+    res.sendFile(indexPath);
   });
 }
