@@ -68,20 +68,33 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
-  // In production, Vite builds to dist/ (same directory as the server bundle)
-  const distPath = path.resolve(import.meta.dirname, "..", "dist");
+  // In production on Vercel, all files (client + server) are in the dist directory
+  // Use a simple path from the working directory
+  let distPath = path.resolve("dist");
+  
+  // Fallback if dist doesn't exist in working directory
+  if (!fs.existsSync(distPath)) {
+    distPath = path.resolve(import.meta.dirname, "..", "dist");
+  }
 
   if (!fs.existsSync(distPath)) {
     throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`,
+      `Could not find the build directory at ${distPath}, make sure to build first`,
     );
   }
+
+  console.log(`[serve-static] Serving static files from: ${distPath}`);
 
   // Serve static assets (CSS, JS, images, etc)
   app.use(express.static(distPath));
 
   // Fall through to index.html for all other routes (SPA routing)
   app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+    const indexPath = path.resolve(distPath, "index.html");
+    if (fs.existsSync(indexPath)) {
+      res.sendFile(indexPath);
+    } else {
+      res.status(404).send("index.html not found");
+    }
   });
 }
