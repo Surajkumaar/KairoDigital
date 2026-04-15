@@ -47,7 +47,7 @@ export const posterPaths: string[] = [
 ];
 
 export const videoLinks: string[] = [
-  "https://drive.google.com/file/d/1ywXjm5MQoyu7B1H18tRPsHUll-Yfu2oi/preview",
+  "https://youtu.be/yOCeuRVwP74",
   "https://drive.google.com/file/d/1palQ_X2xD1xzzQja4RK2sTn-4cNcrCdR/preview",
   "https://drive.google.com/file/d/1MZgtq90z_V9pGuslZLhZHW_ikVpVKBg-/preview",
   "https://drive.google.com/file/d/1pKciPEHPLujFJmSMPESedPoPrp8jQTVO/preview",

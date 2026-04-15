@@ -127,11 +127,16 @@ const videos: VideoItem[] = videoLinks.map((videoLink, index) => {
   const rawValue = videoLink?.trim() || "";
   const validDrive = !isPlaceholderValue(rawValue);
 
+  // Check if it's a YouTube URL
+  const isYoutube = rawValue.includes("youtube.com") || rawValue.includes("youtu.be");
+
   const driveUrl = !validDrive
     ? undefined
-    : rawValue.includes("drive.google.com")
+    : isYoutube
       ? rawValue
-      : `https://drive.google.com/file/d/${rawValue}/view?usp=sharing`;
+      : rawValue.includes("drive.google.com")
+        ? rawValue
+        : `https://drive.google.com/file/d/${rawValue}/view?usp=sharing`;
 
   // Get explicit thumbnail from config
   const explicitThumbnail = videoThumbnailPaths[index]?.trim();
@@ -170,9 +175,40 @@ const websites: WebsiteItem[] = websiteLinks.map((websiteUrl, index) => ({
   websiteUrl,
 }));
 
+function getYoutubeEmbedUrl(url: string): string | null {
+  try {
+    // Handle youtu.be shortened URLs
+    const youtubeShortMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+    if (youtubeShortMatch) {
+      return `https://www.youtube.com/embed/${youtubeShortMatch[1]}`;
+    }
+
+    // Handle youtube.com URLs
+    const youtubeMatch = url.match(/youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/);
+    if (youtubeMatch) {
+      return `https://www.youtube.com/embed/${youtubeMatch[1]}`;
+    }
+
+    // Handle already embed URLs
+    const embedMatch = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/);
+    if (embedMatch) {
+      return url;
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
 function getDrivePreviewUrl(url: string): string {
   const trimmed = url.trim();
   if (!trimmed) return "";
+
+  // Check if it's a YouTube URL
+  const youtubeEmbed = getYoutubeEmbedUrl(trimmed);
+  if (youtubeEmbed) {
+    return youtubeEmbed;
+  }
 
   if (!trimmed.includes("drive.google.com")) {
     return `https://drive.google.com/file/d/${trimmed}/preview`;
@@ -220,6 +256,27 @@ export default function PortfolioPage() {
   const [search, setSearch] = useState("");
   const [isDark, setIsDark] = useState(true);
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
+  const [dynamicPortfolioItems, setDynamicPortfolioItems] = useState<any[]>([]);
+  const [isLoadingPortfolio, setIsLoadingPortfolio] = useState(true);
+
+  // Fetch portfolio items from backend
+  useEffect(() => {
+    const fetchPortfolioItems = async () => {
+      try {
+        const response = await fetch("/api/portfolio");
+        const result = await response.json();
+        if (result.success && Array.isArray(result.data)) {
+          setDynamicPortfolioItems(result.data);
+        }
+      } catch (error) {
+        console.warn("Could not fetch portfolio from backend, using static data");
+      } finally {
+        setIsLoadingPortfolio(false);
+      }
+    };
+
+    fetchPortfolioItems();
+  }, []);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("portfolio-theme");
@@ -243,19 +300,54 @@ export default function PortfolioPage() {
 
   const query = search.trim().toLowerCase();
 
+  // Use only backend portfolio items (which includes all static data on startup)
+  const allPosterItems = useMemo(() => {
+    if (dynamicPortfolioItems.length > 0) {
+      return dynamicPortfolioItems
+        .filter((item) => item.type === "poster")
+        .map((item, index) => ({
+          id: item.id,
+          title: item.title || `Poster ${index + 1}`,
+          description: item.description || "Poster campaign and digital rollout",
+          image: item.imageUrl || `https://placehold.co/600x800/2563eb/ffffff?text=${item.title}`,
+          websiteUrl: item.websiteUrl || "#",
+        }));
+    }
+    return posters;
+  }, [dynamicPortfolioItems]);
+
+  const allVideoItems = useMemo(() => {
+    if (dynamicPortfolioItems.length > 0) {
+      return dynamicPortfolioItems
+        .filter((item) => item.type === "video")
+        .map((item, index) => {
+          const driveUrl = item.videoUrl;
+          const thumbnail = item.videoThumbnail || getDefaultVideoThumbnail(index);
+          return {
+            id: item.id,
+            title: item.title || `Video ${index + 1}`,
+            thumbnail,
+            driveUrl,
+            isPlayable: !!driveUrl,
+          };
+        });
+    }
+    return videos;
+  }, [dynamicPortfolioItems]);
+
   const filteredPosters = useMemo(
     () =>
-      posters.filter(
+      allPosterItems.filter(
         (item) =>
           item.title.toLowerCase().includes(query) ||
           item.description.toLowerCase().includes(query)
       ),
-    [query]
+    [query, allPosterItems]
   );
 
   const filteredVideos = useMemo(
-    () => videos.filter((item) => item.title.toLowerCase().includes(query)),
-    [query]
+    () => allVideoItems.filter((item) => item.title.toLowerCase().includes(query)),
+    [query, allVideoItems]
   );
 
   const playableVideoCount = useMemo(
@@ -263,14 +355,28 @@ export default function PortfolioPage() {
     [filteredVideos]
   );
 
+  const allWebsiteItems = useMemo(() => {
+    if (dynamicPortfolioItems.length > 0) {
+      return dynamicPortfolioItems
+        .filter((item) => item.type === "website" && item.websiteUrl)
+        .map((item, index) => ({
+          id: item.id,
+          title: item.title || `Website ${index + 1}`,
+          description: item.description || "Website link for this project",
+          websiteUrl: item.websiteUrl,
+        }));
+    }
+    return websites;
+  }, [dynamicPortfolioItems]);
+
   const filteredWebsites = useMemo(
     () =>
-      websites.filter(
+      allWebsiteItems.filter(
         (item) =>
           item.title.toLowerCase().includes(query) ||
           item.websiteUrl.toLowerCase().includes(query)
       ),
-    [query]
+    [query, allWebsiteItems]
   );
 
   const rootClasses = isDark

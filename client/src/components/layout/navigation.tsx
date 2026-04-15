@@ -16,6 +16,11 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleLogoClick = () => {
+    console.log("🔐 Navigating to admin...");
+    window.location.href = "/admin";
+  };
+
   const navLinks = [
     { href: "#about", label: "About" },
     { href: "#services", label: "Services" },
@@ -41,8 +46,12 @@ export default function Navigation() {
     >
       <div className="container mx-auto px-6 py-6">
         <div className="flex items-center justify-between">
-          {/* Logo Section */}
-          <div className="flex items-center">
+          {/* Logo Section - Clickable for Admin */}
+          <div 
+            className="flex items-center cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={handleLogoClick}
+            title="Click to go to admin panel"
+          >
             <img
               src={logoImage}
               alt="Kairo Digital"
@@ -141,5 +150,5 @@ export default function Navigation() {
         </div>
       </div>
     </nav>
-  );
+    );
 }

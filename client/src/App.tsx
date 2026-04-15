@@ -7,12 +7,14 @@ import Home from "@/pages/home";
 import NotFound from "@/pages/not-found";
 import UnderDevelopment from "@/pages/under-development";
 import PortfolioPage from "@/pages/portfolio.tsx";
+import AdminPage from "@/pages/admin.tsx";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/portfolio" component={PortfolioPage} />
+      <Route path="/admin" component={AdminPage} />
       <Route path="/under-development" component={UnderDevelopment} />
       <Route path="/:path*" component={NotFound} />
     </Switch>

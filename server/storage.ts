@@ -1,4 +1,4 @@
-import { users, type User, type InsertUser, type ContactMessage, type InsertContactMessage } from "@shared/schema";
+import { users, type User, type InsertUser, type ContactMessage, type InsertContactMessage, type PortfolioItem, type InsertPortfolioItem } from "@shared/schema";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -8,19 +8,28 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   createContactMessage(message: any): Promise<any>;
+  getPortfolioItems(): Promise<PortfolioItem[]>;
+  createPortfolioItem(item: InsertPortfolioItem): Promise<PortfolioItem>;
+  deletePortfolioItem(id: number): Promise<boolean>;
+  clearPortfolioItems(): Promise<void>;
+  upsertPortfolioItem(item: InsertPortfolioItem): Promise<PortfolioItem>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private contactMessages: Map<number, ContactMessage>;
+  private portfolioItems: Map<number, PortfolioItem>;
   currentId: number;
   currentMessageId: number;
+  currentPortfolioId: number;
 
   constructor() {
     this.users = new Map();
     this.contactMessages = new Map();
+    this.portfolioItems = new Map();
     this.currentId = 1;
     this.currentMessageId = 1;
+    this.currentPortfolioId = 1;
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -49,6 +58,61 @@ export class MemStorage implements IStorage {
     };
     this.contactMessages.set(id, message);
     return message;
+  }
+
+  async getPortfolioItems(): Promise<PortfolioItem[]> {
+    return Array.from(this.portfolioItems.values());
+  }
+
+  async createPortfolioItem(item: InsertPortfolioItem): Promise<PortfolioItem> {
+    const id = this.currentPortfolioId++;
+    const now = new Date();
+    const portfolioItem: PortfolioItem = {
+      id,
+      ...item,
+      createdAt: now,
+      updatedAt: now,
+    };
+    this.portfolioItems.set(id, portfolioItem);
+    return portfolioItem;
+  }
+
+  async deletePortfolioItem(id: number): Promise<boolean> {
+    return this.portfolioItems.delete(id);
+  }
+
+  async clearPortfolioItems(): Promise<void> {
+    this.portfolioItems.clear();
+  }
+
+  async upsertPortfolioItem(item: InsertPortfolioItem): Promise<PortfolioItem> {
+    // Normalize title for matching (trim whitespace, lowercase)
+    const normalizedNewTitle = (item.title || "").trim().toLowerCase();
+    
+    // Find existing item with the same title and type
+    const existingItem = Array.from(this.portfolioItems.values()).find(
+      (p) => {
+        const normalizedExistingTitle = (p.title || "").trim().toLowerCase();
+        return normalizedExistingTitle === normalizedNewTitle && p.type === item.type;
+      }
+    );
+
+    if (existingItem) {
+      // Update existing item
+      const updatedItem: PortfolioItem = {
+        ...existingItem,
+        ...item,
+        title: (item.title || "").trim(), // Trim the new title too
+        updatedAt: new Date(),
+      };
+      this.portfolioItems.set(existingItem.id, updatedItem);
+      console.log(`✓ Updated portfolio item: "${existingItem.title}" (${item.type})`);
+      return updatedItem;
+    } else {
+      // Create new item
+      console.log(`✓ Created new portfolio item: "${item.title}" (${item.type})`);
+      return this.createPortfolioItem(item);
+    }
   }
 }
 
