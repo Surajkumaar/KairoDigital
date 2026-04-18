@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { X, Upload, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { API_ENDPOINTS } from "@/config/api-config";
 import * as XLSX from "xlsx";
 
 interface AdminDashboardProps {
@@ -51,7 +52,7 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
       }));
 
       // Send to backend
-      const response = await fetch("/api/portfolio/bulk", {
+      const response = await fetch(`${API_ENDPOINTS.BACKEND}/portfolio/bulk`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, Upload, Loader, CheckCircle, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { API_ENDPOINTS } from "@/config/api-config";
 import * as XLSX from "xlsx";
-
 interface PortfolioItem {
   title: string;
   description?: string;
@@ -38,10 +38,22 @@ export default function AdminPage() {
 
   const fetchPortfolioItems = async () => {
     try {
-      const response = await fetch("/api/portfolio");
-      const result = await response.json();
-      if (result.success && Array.isArray(result.data)) {
-        setPortfolioItems(result.data);
+      const response = await fetch(`${API_ENDPOINTS.BACKEND}/portfolio`);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      // FastAPI returns a plain array with snake_case fields
+      const data = await response.json();
+      if (Array.isArray(data)) {
+        // Normalise to camelCase for UI compatibility
+        setPortfolioItems(data.map((item: any) => ({
+          id: item.id,
+          title: item.title,
+          description: item.description,
+          type: item.type,
+          imageUrl: item.image_url,
+          videoUrl: item.video_url,
+          videoThumbnail: item.video_thumbnail,
+          websiteUrl: item.website_url,
+        })));
       }
     } catch (error) {
       console.error("Error fetching portfolio items:", error);
@@ -95,13 +107,23 @@ export default function AdminPage() {
 
       console.log("📤 Uploading portfolio items:", portfolioItems);
 
-      // Send to backend
-      const response = await fetch("/api/portfolio/bulk", {
+      // FastAPI /api/portfolio/bulk accepts multipart form with items_json field
+      const formData = new FormData();
+      formData.append("items_json", JSON.stringify({
+        items: portfolioItems.map(item => ({
+          title: item.title,
+          description: item.description || "",
+          type: item.type,
+          image_url: item.imageUrl || "",
+          video_url: item.videoUrl || "",
+          video_thumbnail: item.videoThumbnail || "",
+          website_url: item.websiteUrl || "",
+        }))
+      }));
+
+      const response = await fetch(`${API_ENDPOINTS.BACKEND}/portfolio/bulk`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ items: portfolioItems }),
+        body: formData,
       });
 
       if (!response.ok) {
@@ -110,10 +132,10 @@ export default function AdminPage() {
 
       const result = await response.json();
 
-      if (result.success) {
-        setMessage(`✅ Successfully synced ${portfolioItems.length} items! Updating posters and videos...`);
+      if (result.synced_count !== undefined) {
+        setMessage(`✅ Successfully synced ${result.synced_count} items! Updating posters and videos...`);
         setMessageType("success");
-        setUploadedCount(portfolioItems.length);
+        setUploadedCount(result.synced_count);
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
@@ -142,23 +164,21 @@ export default function AdminPage() {
     setDeleteMessage("");
 
     try {
-      const response = await fetch(`/api/portfolio/${selectedItem.id}`, {
+      const response = await fetch(`${API_ENDPOINTS.BACKEND}/portfolio/${selectedItem.id}`, {
         method: "DELETE",
       });
 
-      const result = await response.json();
-
-      if (result.success) {
+      // FastAPI returns 204 No Content on success (no body)
+      if (response.ok) {
         setDeleteMessage(`✅ Successfully deleted "${selectedItem.title}"!`);
         setDeleteMessageType("success");
         setSelectedItem(null);
-        
-        // Refresh the list
         setTimeout(() => {
           fetchPortfolioItems();
         }, 1000);
       } else {
-        setDeleteMessage(result.message || "Failed to delete item");
+        const result = await response.json().catch(() => ({}));
+        setDeleteMessage(result.detail || "Failed to delete item");
         setDeleteMessageType("error");
       }
     } catch (error) {

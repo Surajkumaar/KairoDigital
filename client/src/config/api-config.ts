@@ -39,7 +39,9 @@ export const getOpenRouterApiKey = (): string => {
   return apiKey.toString().replace(/["'\s]/g, '');
 };
 
-// API endpoints
+// API endpoints - Hugging Face live backend
 export const API_ENDPOINTS = {
-  OPENROUTER_CHAT: 'https://openrouter.ai/api/v1/chat/completions'
+  OPENROUTER_CHAT: 'https://openrouter.ai/api/v1/chat/completions',
+  // Prioritize environment variable, then HF URL, then local proxy
+  BACKEND: import.meta.env.VITE_API_URL || 'https://surajkumaar-kairo-backend.hf.space/api'
 };

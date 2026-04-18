@@ -7,6 +7,8 @@
 export const env = {
   // OpenRouter API key for AI chat completions
   OPENROUTER_API_KEY: import.meta.env.VITE_OPENROUTER_API_KEY || '',
+  // Backend API URL
+  API_URL: import.meta.env.VITE_API_URL || 'https://surajkumaar-kairo-backend.hf.space/api',
 };
 
 /**

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, ExternalLink, Moon, Play, Sun, X } from "lucide-react";
 import Footer from "@/components/layout/footer";
 import FloatingActions from "@/components/layout/floating-actions";
+import { API_ENDPOINTS } from "@/config/api-config";
 import {
   portfolioDescriptions,
   portfolioTitles,
@@ -259,14 +260,16 @@ export default function PortfolioPage() {
   const [dynamicPortfolioItems, setDynamicPortfolioItems] = useState<any[]>([]);
   const [isLoadingPortfolio, setIsLoadingPortfolio] = useState(true);
 
-  // Fetch portfolio items from backend
+  // Fetch portfolio items from FastAPI backend
   useEffect(() => {
     const fetchPortfolioItems = async () => {
       try {
-        const response = await fetch("/api/portfolio");
-        const result = await response.json();
-        if (result.success && Array.isArray(result.data)) {
-          setDynamicPortfolioItems(result.data);
+        const response = await fetch(`${API_ENDPOINTS.BACKEND}/portfolio`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        // FastAPI returns a plain array with snake_case fields
+        if (Array.isArray(data)) {
+          setDynamicPortfolioItems(data);
         }
       } catch (error) {
         console.warn("Could not fetch portfolio from backend, using static data");
@@ -300,40 +303,59 @@ export default function PortfolioPage() {
 
   const query = search.trim().toLowerCase();
 
-  // Use only backend portfolio items (which includes all static data on startup)
+  // Per-section fallback: each section independently uses backend data if that type
+  // exists in the DB, otherwise falls back to static config data.
+  // While loading, return empty arrays to avoid a flash of static data.
+  const backendPosters = dynamicPortfolioItems.filter((item) => item.type === "poster");
+  const backendVideos  = dynamicPortfolioItems.filter((item) => item.type === "video");
+  const backendWebsites = dynamicPortfolioItems.filter(
+    (item) => item.type === "website" && (item.website_url || item.websiteUrl)
+  );
+
   const allPosterItems = useMemo(() => {
-    if (dynamicPortfolioItems.length > 0) {
-      return dynamicPortfolioItems
-        .filter((item) => item.type === "poster")
-        .map((item, index) => ({
-          id: item.id,
-          title: item.title || `Poster ${index + 1}`,
-          description: item.description || "Poster campaign and digital rollout",
-          image: item.imageUrl || `https://placehold.co/600x800/2563eb/ffffff?text=${item.title}`,
-          websiteUrl: item.websiteUrl || "#",
-        }));
+    if (isLoadingPortfolio) return [];
+    if (backendPosters.length > 0) {
+      return backendPosters.map((item, index) => ({
+        id: item.id,
+        title: item.title || `Poster ${index + 1}`,
+        description: item.description || "Poster campaign and digital rollout",
+        image: item.image_url || item.imageUrl || `https://placehold.co/600x800/2563eb/ffffff?text=${item.title}`,
+        websiteUrl: item.website_url || item.websiteUrl || "#",
+      }));
     }
     return posters;
-  }, [dynamicPortfolioItems]);
+  }, [isLoadingPortfolio, backendPosters]);
 
   const allVideoItems = useMemo(() => {
-    if (dynamicPortfolioItems.length > 0) {
-      return dynamicPortfolioItems
-        .filter((item) => item.type === "video")
-        .map((item, index) => {
-          const driveUrl = item.videoUrl;
-          const thumbnail = item.videoThumbnail || getDefaultVideoThumbnail(index);
-          return {
-            id: item.id,
-            title: item.title || `Video ${index + 1}`,
-            thumbnail,
-            driveUrl,
-            isPlayable: !!driveUrl,
-          };
-        });
+    if (isLoadingPortfolio) return [];
+    if (backendVideos.length > 0) {
+      return backendVideos.map((item, index) => {
+        const driveUrl = item.video_url || item.videoUrl;
+        const thumbnail = item.video_thumbnail || item.videoThumbnail || getDefaultVideoThumbnail(index);
+        return {
+          id: item.id,
+          title: item.title || `Video ${index + 1}`,
+          thumbnail,
+          driveUrl,
+          isPlayable: !!driveUrl,
+        };
+      });
     }
     return videos;
-  }, [dynamicPortfolioItems]);
+  }, [isLoadingPortfolio, backendVideos]);
+
+  const allWebsiteItems = useMemo(() => {
+    if (isLoadingPortfolio) return [];
+    if (backendWebsites.length > 0) {
+      return backendWebsites.map((item, index) => ({
+        id: item.id,
+        title: item.title || `Website ${index + 1}`,
+        description: item.description || "Website link for this project",
+        websiteUrl: item.website_url || item.websiteUrl,
+      }));
+    }
+    return websites;
+  }, [isLoadingPortfolio, backendWebsites]);
 
   const filteredPosters = useMemo(
     () =>
@@ -354,20 +376,6 @@ export default function PortfolioPage() {
     () => filteredVideos.filter((item) => item.isPlayable).length,
     [filteredVideos]
   );
-
-  const allWebsiteItems = useMemo(() => {
-    if (dynamicPortfolioItems.length > 0) {
-      return dynamicPortfolioItems
-        .filter((item) => item.type === "website" && item.websiteUrl)
-        .map((item, index) => ({
-          id: item.id,
-          title: item.title || `Website ${index + 1}`,
-          description: item.description || "Website link for this project",
-          websiteUrl: item.websiteUrl,
-        }));
-    }
-    return websites;
-  }, [dynamicPortfolioItems]);
 
   const filteredWebsites = useMemo(
     () =>
@@ -452,7 +460,29 @@ export default function PortfolioPage() {
       </nav>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
-        {(activeTab === "all" || activeTab === "posters") && (
+        {/* Loading skeleton */}
+        {isLoadingPortfolio && (
+          <div className="space-y-16 animate-pulse">
+            <div>
+              <div className={`h-8 w-32 rounded mb-6 ${isDark ? "bg-slate-800" : "bg-slate-200"}`} />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className={`aspect-[3/4] rounded-2xl ${isDark ? "bg-slate-800" : "bg-slate-200"}`} />
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className={`h-8 w-24 rounded mb-6 ${isDark ? "bg-slate-800" : "bg-slate-200"}`} />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className={`aspect-video rounded-2xl ${isDark ? "bg-slate-800" : "bg-slate-200"}`} />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {!isLoadingPortfolio && (activeTab === "all" || activeTab === "posters") && (
           <section className="animate-fade-in">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold">Posters</h2>
@@ -485,7 +515,7 @@ export default function PortfolioPage() {
           </section>
         )}
 
-        {(activeTab === "all" || activeTab === "videos") && (
+        {!isLoadingPortfolio && (activeTab === "all" || activeTab === "videos") && (
           <section className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold">Videos</h2>
@@ -540,7 +570,7 @@ export default function PortfolioPage() {
           </section>
         )}
 
-        {(activeTab === "all" || activeTab === "websites") && (
+        {!isLoadingPortfolio && (activeTab === "all" || activeTab === "websites") && (
           <section className="animate-fade-in" style={{ animationDelay: "0.2s" }}>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold">Websites</h2>
