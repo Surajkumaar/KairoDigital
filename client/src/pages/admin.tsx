@@ -400,7 +400,7 @@ export default function AdminPage() {
               </div>
 
               {/* Professional Invoice Builder */}
-              <div className="w-full bg-white text-slate-900 rounded-[1.5rem] shadow-2xl overflow-hidden print:overflow-visible print:m-0 print:shadow-none print:w-full print:rounded-none">
+              <div id="printable-invoice" className="w-full bg-white text-slate-900 rounded-[1.5rem] shadow-2xl overflow-hidden print:overflow-visible print:m-0 print:shadow-none print:w-full print:rounded-none">
                 <div className="h-2 bg-blue-600 print:h-1" />
 
                 <div className="p-10 md:p-14 space-y-10 print:p-8 print:space-y-6">
@@ -646,22 +646,33 @@ export default function AdminPage() {
         @media print {
           title { display: none; }
           body { background: white !important; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+          
+          /* Hide everything first to avoid extension interference */
+          body * { visibility: hidden; }
+          
+          /* Only show the invoice and its children */
+          #printable-invoice, #printable-invoice * { visibility: visible; }
+          
+          /* Position the invoice at the very top for printing */
+          #printable-invoice {
+            visibility: visible !important;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+          }
+
           .min-h-screen { min-height: 0 !important; }
           main { padding: 0 !important; margin: 0 !important; overflow: visible !important; }
-          .print\:m-0 { margin: 0 !important; }
           
           /* Force tighter padding for the invoice container on A4 */
-          .p-12, .md\:p-16 { padding: 15mm !important; } 
+          .p-10, .md\:p-14, .print\:p-8 { padding: 15mm !important; } 
 
           /* Ensure nothing is hidden */
           * { overflow: visible !important; }
           
           /* Prevent items from breaking across pages */
           .grid { page-break-inside: avoid; }
-          
-          /* Remove gaps between blocks */
-          .space-y-12 { margin-top: 0 !important; }
-          .space-y-12 > * + * { margin-top: 1.5rem !important; }
         }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
