@@ -1,4 +1,5 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
+import { env } from "../env";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
@@ -7,12 +8,31 @@ async function throwIfResNotOk(res: Response) {
   }
 }
 
+/**
+ * Normalizes a URL by prepending the backend API URL if the path starts with /api
+ */
+function getFullUrl(path: string): string {
+  if (path.startsWith("http")) return path;
+  
+  const baseUrl = env.API_URL.endsWith('/') ? env.API_URL.slice(0, -1) : env.API_URL;
+  
+  // If the path starts with /api, we replace it with the baseUrl
+  // This handles paths like "/api/login" -> "https://backend.com/api/login"
+  if (path.startsWith("/api")) {
+    return baseUrl + path.substring(4);
+  }
+  
+  return path;
+}
+
 export async function apiRequest(
   method: string,
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
-  const res = await fetch(url, {
+  const formattedUrl = getFullUrl(url);
+  
+  const res = await fetch(formattedUrl, {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
     body: data ? JSON.stringify(data) : undefined,
@@ -29,7 +49,9 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const res = await fetch(queryKey[0] as string, {
+    const formattedUrl = getFullUrl(queryKey[0] as string);
+    
+    const res = await fetch(formattedUrl, {
       credentials: "include",
     });
 
