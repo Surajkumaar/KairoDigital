@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import {
   ArrowLeft, Upload, Loader, CheckCircle, Trash2,
-  FileText, LayoutDashboard, Plus, Trash, Download, Printer
+  FileText, LayoutDashboard, Plus, Trash, Download, Printer, LogOut
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/use-auth";
 import { API_ENDPOINTS } from "@/config/api-config";
 import * as XLSX from "xlsx";
 
@@ -39,6 +40,7 @@ const SERVICES = [
 ];
 
 export default function AdminPage() {
+  const { logoutMutation } = useAuth();
   const [activeTab, setActiveTab] = useState<"portfolio" | "invoice">("portfolio");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -253,11 +255,11 @@ export default function AdminPage() {
         </nav>
 
         <button
-          onClick={() => window.location.href = "/"}
+          onClick={() => logoutMutation.mutate()}
           className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-slate-400 hover:text-red-400 transition-all mt-auto"
         >
-          <ArrowLeft size={20} />
-          <span className="font-medium">Exit Dashboard</span>
+          <LogOut size={20} />
+          <span className="font-medium">Logout</span>
         </button>
       </aside>
 

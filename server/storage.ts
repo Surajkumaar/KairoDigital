@@ -1,7 +1,8 @@
 import { users, type User, type InsertUser, type ContactMessage, type InsertContactMessage, type PortfolioItem, type InsertPortfolioItem } from "@shared/schema";
+import session from "express-session";
+import createMemoryStore from "memorystore";
 
-// modify the interface with any CRUD methods
-// you might need
+const MemoryStore = createMemoryStore(session);
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -13,15 +14,14 @@ export interface IStorage {
   deletePortfolioItem(id: number): Promise<boolean>;
   clearPortfolioItems(): Promise<void>;
   upsertPortfolioItem(item: InsertPortfolioItem): Promise<PortfolioItem>;
+  sessionStore: session.Store;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private contactMessages: Map<number, ContactMessage>;
   private portfolioItems: Map<number, PortfolioItem>;
-  currentId: number;
-  currentMessageId: number;
-  currentPortfolioId: number;
+  sessionStore: session.Store;
 
   constructor() {
     this.users = new Map();
@@ -30,6 +30,9 @@ export class MemStorage implements IStorage {
     this.currentId = 1;
     this.currentMessageId = 1;
     this.currentPortfolioId = 1;
+    this.sessionStore = new MemoryStore({
+      checkPeriod: 86400000,
+    });
   }
 
   async getUser(id: number): Promise<User | undefined> {

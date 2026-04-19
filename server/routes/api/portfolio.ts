@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { storage } from "../../storage";
 import { insertPortfolioItemSchema } from "@shared/schema";
 import { z } from "zod";
+import { ensureAuthenticated } from "../../auth";
 
 export default function portfolioRoutes(app: Express) {
   // Get all portfolio items
@@ -15,7 +16,7 @@ export default function portfolioRoutes(app: Express) {
   });
 
   // Create a portfolio item
-  app.post("/api/portfolio", async (req, res) => {
+  app.post("/api/portfolio", ensureAuthenticated, async (req, res) => {
     try {
       const validatedData = insertPortfolioItemSchema.parse(req.body);
       const item = await storage.createPortfolioItem(validatedData);
@@ -34,7 +35,7 @@ export default function portfolioRoutes(app: Express) {
   });
 
   // Bulk create or update portfolio items from Excel
-  app.post("/api/portfolio/bulk", async (req, res) => {
+  app.post("/api/portfolio/bulk", ensureAuthenticated, async (req, res) => {
     try {
       const { items } = req.body;
       if (!Array.isArray(items)) {
@@ -97,7 +98,7 @@ export default function portfolioRoutes(app: Express) {
   });
 
   // Delete a portfolio item
-  app.delete("/api/portfolio/:id", async (req, res) => {
+  app.delete("/api/portfolio/:id", ensureAuthenticated, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const deleted = await storage.deletePortfolioItem(id);

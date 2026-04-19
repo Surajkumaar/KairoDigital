@@ -1,5 +1,6 @@
 import { Router } from "express";
 import dotenv from "dotenv";
+import { ensureAuthenticated } from "../../auth";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -15,8 +16,8 @@ router.get("/", (req, res) => {
   });
 });
 
-// Secure endpoint to get the API key - requires proper authentication in production
-router.get("/api-key", (req, res) => {
+// Secure endpoint to get the API key - requires proper authentication
+router.get("/api-key", ensureAuthenticated, (req, res) => {
   const apiKey = process.env.VITE_OPENROUTER_API_KEY;
   
   if (!apiKey) {
