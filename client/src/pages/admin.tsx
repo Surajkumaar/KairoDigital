@@ -28,15 +28,13 @@ interface InvoiceItem {
   description: string;
   quantity: number;
   rate: number;
-  gstRate: number;
 }
 
 const SERVICES = [
-  { name: "Video Handling", sac: "999612", defaultGst: 18 },
-  { name: "Video Post Production", sac: "999612", defaultGst: 18 },
-  { name: "Instagram Handling", sac: "998361", defaultGst: 18 },
-  { name: "Website Development", sac: "998313", defaultGst: 18 },
-  { name: "Custom Service", sac: "998311", defaultGst: 18 },
+  { name: "Video Handling", sac: "999612" },
+  { name: "Video Post Production", sac: "999612" },
+  { name: "Instagram Handling", sac: "998361" },
+  { name: "Website Development", sac: "998313" },
 ];
 
 export default function AdminPage() {
@@ -67,8 +65,7 @@ export default function AdminPage() {
       serviceType: "Video Handling",
       description: "Video Management Services",
       quantity: 1,
-      rate: 0,
-      gstRate: 18
+      rate: 0
     }] as InvoiceItem[],
   });
 
@@ -187,8 +184,7 @@ export default function AdminPage() {
         serviceType: "Video Handling",
         description: "",
         quantity: 1,
-        rate: 0,
-        gstRate: 18
+        rate: 0
       }]
     });
   };
@@ -203,11 +199,7 @@ export default function AdminPage() {
       items: invoiceData.items.map(i => {
         if (i.id === id) {
           const updated = { ...i, [field]: value };
-          // Auto-apply GST if service type changes
-          if (field === "serviceType") {
-            const service = SERVICES.find(s => s.name === value);
-            if (service) updated.gstRate = service.defaultGst;
-          }
+          // Handle service type changes
           return updated;
         }
         return i;
@@ -224,8 +216,7 @@ export default function AdminPage() {
   };
 
   const subtotal = invoiceData.items.reduce((sum, item) => sum + (item.quantity * item.rate), 0);
-  const totalGst = invoiceData.items.reduce((sum, item) => sum + (item.quantity * item.rate * item.gstRate / 100), 0);
-  const total = subtotal + totalGst;
+  const total = subtotal;
 
   return (
     <div className="min-h-screen bg-[#050510] text-slate-200 flex flex-col md:flex-row font-outfit">
@@ -405,25 +396,26 @@ export default function AdminPage() {
               <div id="printable-invoice" className="w-full bg-white text-slate-900 rounded-[1.5rem] shadow-2xl overflow-hidden print:overflow-visible print:m-0 print:shadow-none print:w-full print:rounded-none">
                 <div className="h-2 bg-blue-600 print:h-1" />
 
-                <div className="p-10 md:p-14 space-y-10 print:p-8 print:space-y-6">
+                <div className="p-8 md:p-10 space-y-8 print:p-10 print:space-y-8">
                   {/* Phase 1: High-Level Header (Visual Identity & Core Meta) */}
-                  <div className="flex flex-col md:flex-row justify-between items-start gap-12 border-b-4 border-slate-900 pb-10 print:pb-6">
-                    <div className="space-y-6 flex-1">
-                      <img src="/logo.png" alt="Logo" className="h-14 w-auto object-contain print:h-12" />
-                      <div className="space-y-1">
+                  <div className="flex flex-col md:flex-row justify-between items-start gap-8 border-b-4 border-slate-900 pb-6 print:pb-2 print:gap-2">
+                    <div className="space-y-4 flex-1 print:space-y-1">
+                      <img src="/logo.png" alt="Logo" className="h-28 w-auto object-contain print:h-24" />
+                      <div className="space-y-1 print:space-y-0">
                         <div className="text-[10px] font-black uppercase text-blue-600 tracking-[0.2em]">Issued By</div>
                         <div className="text-xs text-slate-500 font-bold leading-relaxed max-w-xs uppercase">
                           Kairo Digital Agency<br />
-                          123 Creative Studio, Phase II, Bangalore<br />
-                          GSTIN: 29AAAAA0000A1Z5 | +91 98765 43210
+                          NO 44, VASANTHAM NAGAR, WEST TAMBARAM,<br />
+                          CHENNAI, TAMIL NADU - 600045<br />
+                          PH: +91 8939651621
                         </div>
                       </div>
                     </div>
 
-                    <div className="w-full md:w-auto flex flex-col items-end gap-2 px-4 border-l-2 border-slate-100">
-                      <h1 className="text-6xl font-black text-slate-100 uppercase tracking-tighter leading-none print:text-slate-200">Invoice</h1>
-                      <div className="flex flex-col items-end space-y-2 pt-4">
-                        <div className="flex items-center gap-6 group pt-4">
+                    <div className="w-full md:w-auto flex flex-col items-end px-4 border-l-2 border-slate-100 print:border-none print:px-0">
+                      <h1 className="text-5xl font-black text-slate-100 uppercase tracking-tighter leading-none print:text-slate-200 print:text-4xl">Invoice</h1>
+                      <div className="flex flex-col items-end space-y-1 mt-4 print:mt-1">
+                        <div className="flex items-center gap-4 group">
                           <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Issue Date</span>
                           <div className="flex items-center gap-2">
                             <input
@@ -440,9 +432,9 @@ export default function AdminPage() {
                   </div>
 
                   {/* Phase 2: Client Shaded Block (Visual Separator) */}
-                  <div className="bg-slate-50/80 p-8 rounded-2xl border border-slate-100 print:bg-transparent print:border-none print:p-0">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                      <div className="space-y-4">
+                  <div className="bg-slate-50/80 p-6 rounded-2xl border border-slate-100 print:bg-transparent print:border-none print:p-0 print:mt-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 print:gap-4">
+                      <div className="space-y-2">
                         <div className="text-[10px] font-black uppercase text-blue-600 tracking-[0.3em] flex items-center gap-3">
                           <div className="w-8 h-1 bg-blue-600" /> Billed To
                         </div>
@@ -469,39 +461,49 @@ export default function AdminPage() {
                   </div>
 
                   {/* Phase 3: Table Section (Quantitative Alignment) */}
-                  <div className="space-y-4">
+                  <div className="space-y-4 print:space-y-1">
                     <table className="w-full text-left border-collapse table-fixed">
                       <thead>
                         <tr className="bg-slate-900 text-white rounded-lg overflow-hidden">
-                          <th className="py-5 px-6 text-[11px] font-black uppercase tracking-[0.2em] w-[45%]">Service Details</th>
-                          <th className="py-5 px-2 text-[11px] font-black uppercase tracking-[0.2em] text-center w-[10%]">Qty</th>
-                          <th className="py-5 px-2 text-[11px] font-black uppercase tracking-[0.2em] text-right w-[15%]">Rate (₹)</th>
-                          <th className="py-5 px-2 text-[11px] font-black uppercase tracking-[0.2em] text-right w-[10%]">GST %</th>
-                          <th className="py-5 px-6 text-[11px] font-black uppercase tracking-[0.2em] text-right w-[20%]">Net Total</th>
+                          <th className="py-5 px-6 text-[11px] font-black uppercase tracking-[0.2em] w-[55%] print:py-8">Service Details</th>
+                          <th className="py-5 px-2 text-[11px] font-black uppercase tracking-[0.2em] text-center w-[10%] print:py-8">Qty</th>
+                          <th className="py-5 px-2 text-[11px] font-black uppercase tracking-[0.2em] text-right w-[15%] print:py-8">Rate (₹)</th>
+                          <th className="py-5 px-6 text-[11px] font-black uppercase tracking-[0.2em] text-right w-[20%] print:py-8">Net Total</th>
                         </tr>
                       </thead>
                       <tbody>
                         {invoiceData.items.map((item, idx) => (
                           <tr key={item.id} className="border-b-2 border-slate-50 group hover:bg-slate-50 transition-colors">
-                            <td className="py-8 px-6 align-top">
+                            <td className="py-4 px-6 align-top print:py-1">
                               <div className="flex flex-col gap-2">
                                 <div className="text-[9px] font-black text-slate-300 font-mono tracking-tighter uppercase">Reference IR-{idx + 1}</div>
                                 <select
-                                  value={item.serviceType}
+                                  value={SERVICES.find(s => s.name === item.serviceType) ? item.serviceType : "Custom"}
                                   onChange={(e) => updateInvoiceItem(item.id, "serviceType", e.target.value)}
                                   className="print:hidden text-sm font-black text-blue-600 border-none p-0 focus:ring-0 bg-transparent w-full cursor-pointer hover:underline"
                                 >
-                                  {SERVICES.map(s => <option key={s.name} value={s.name}>{s.name} (SAC {s.sac})</option>)}
+                                  {SERVICES.map(s => <option key={s.name} value={s.name}>{s.name}</option>)}
+                                  <option value="Custom">Other / Custom Description</option>
                                 </select>
-                                <div className="hidden print:flex flex-col gap-1">
-                                  <div className="text-sm font-black text-slate-900 uppercase tracking-tight">{item.serviceType}</div>
-                                  <div className="text-[8px] font-black text-blue-500 uppercase tracking-widest flex items-center gap-1">
-                                    <div className="w-1 h-1 bg-blue-500 rounded-full" /> SAC Code {SERVICES.find(s => s.name === item.serviceType)?.sac}
+                                {(!SERVICES.find(s => s.name === item.serviceType) || item.serviceType === "Custom") && (
+                                  <div className="print:hidden mt-2 p-4 bg-blue-50/50 rounded-xl border border-blue-100 shadow-inner">
+                                    <div className="space-y-1.5">
+                                      <label className="text-[9px] font-black text-blue-600 uppercase tracking-[0.2em]">Enter Description Manually:</label>
+                                      <textarea
+                                        placeholder="e.g. Complete website UI/UX architecture design..."
+                                        value={item.serviceType === "Custom" ? "" : item.serviceType}
+                                        onChange={(e) => updateInvoiceItem(item.id, "serviceType", e.target.value)}
+                                        className="print:hidden text-sm border-none focus:ring-0 bg-white/50 rounded-lg p-3 w-full text-slate-900 font-bold min-h-[100px] shadow-sm placeholder:text-slate-300"
+                                      />
+                                    </div>
                                   </div>
+                                )}
+                                <div className="hidden print:flex flex-col gap-1">
+                                  <div className="text-[11px] font-black text-slate-900 uppercase tracking-tight leading-tight whitespace-pre-line">{item.serviceType === "Custom" ? "" : item.serviceType}</div>
                                 </div>
                               </div>
                             </td>
-                            <td className="py-8 px-2 text-center align-top">
+                            <td className="py-4 px-2 text-center align-top print:py-1">
                               <input
                                 type="number"
                                 value={item.quantity}
@@ -509,7 +511,7 @@ export default function AdminPage() {
                                 className="no-spinner w-full text-center text-sm font-black text-slate-800 border-none p-0 focus:ring-0 bg-transparent"
                               />
                             </td>
-                            <td className="py-8 px-2 text-right align-top">
+                            <td className="py-4 px-2 text-right align-top print:py-1">
                               <input
                                 type="number"
                                 value={item.rate}
@@ -517,21 +519,10 @@ export default function AdminPage() {
                                 className="no-spinner w-full text-right text-sm font-bold text-slate-800 border-none p-0 focus:ring-0 bg-transparent"
                               />
                             </td>
-                            <td className="py-8 px-2 text-right align-top">
-                              <div className="flex items-center justify-end gap-0.5">
-                                <input
-                                  type="number"
-                                  value={item.gstRate}
-                                  onChange={(e) => updateInvoiceItem(item.id, "gstRate", parseFloat(e.target.value) || 0)}
-                                  className="no-spinner w-8 text-right text-xs font-black text-blue-500 border-none p-0 focus:ring-0 bg-transparent"
-                                />
-                                <span className="text-[10px] font-black text-blue-500">%</span>
-                              </div>
-                            </td>
-                            <td className="py-8 px-6 text-right font-black text-slate-900 group align-top">
+                            <td className="py-4 px-6 text-right font-black text-slate-900 group align-top print:py-1">
                               <div className="flex flex-col items-end">
                                 <div className="flex items-center justify-end gap-2">
-                                  <span className="text-sm">₹{(item.quantity * item.rate * (1 + item.gstRate / 100)).toLocaleString('en-IN')}</span>
+                                  <span className="text-sm">₹{(item.quantity * item.rate).toLocaleString('en-IN')}</span>
                                   <button
                                     onClick={() => removeInvoiceItem(item.id)}
                                     className="print:hidden p-1 text-red-200 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
@@ -539,7 +530,6 @@ export default function AdminPage() {
                                     <Trash size={14} />
                                   </button>
                                 </div>
-                                <div className="text-[8px] text-slate-300 font-black uppercase tracking-widest mt-1">Inclusive</div>
                               </div>
                             </td>
                           </tr>
@@ -556,25 +546,14 @@ export default function AdminPage() {
                   </button>
 
                   {/* Phase 4: Summarized Footer (Visual Emphasis) */}
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pt-10 border-t-4 border-slate-900 print:pt-6">
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-6 border-t-4 border-slate-900 print:pt-4">
                     <div className="md:col-span-7">
                       {/* Left empty to push totals to the right */}
                     </div>
 
-                    <div className="md:col-span-5 flex flex-col items-end gap-6">
-                      <div className="w-full bg-slate-900 text-white rounded-3xl p-8 space-y-6 shadow-2xl shadow-blue-500/20 print:bg-slate-100 print:text-slate-900 print:shadow-none print:p-6 print:rounded-2xl">
-                        <div className="space-y-3">
-                          <div className="flex justify-between items-center text-slate-400 print:text-slate-500">
-                            <span className="text-[10px] font-black uppercase tracking-widest">Gross Subtotal</span>
-                            <span className="text-sm font-black">₹{subtotal.toLocaleString('en-IN')}</span>
-                          </div>
-                          <div className="flex justify-between items-center text-blue-400 print:text-blue-600">
-                            <span className="text-[10px] font-black uppercase tracking-widest">Applicable GST</span>
-                            <span className="text-sm font-black">+ ₹{totalGst.toLocaleString('en-IN')}</span>
-                          </div>
-                        </div>
-
-                        <div className="pt-6 border-t border-white/10 print:border-slate-300 space-y-1">
+                    <div className="md:col-span-5 flex flex-col items-end gap-6 print:gap-2">
+                      <div className="w-full bg-slate-900 text-white rounded-3xl p-8 space-y-6 shadow-2xl shadow-blue-500/20 print:bg-slate-100 print:text-slate-900 print:shadow-none print:p-3 print:rounded-2xl print:space-y-1">
+                        <div className="space-y-1">
                           <span className="text-[12px] font-black uppercase tracking-[0.4em] text-blue-400 print:text-blue-600">Total Payable</span>
                           <div className="flex justify-between items-end">
                             <div className="text-4xl font-black tracking-tighter">₹{total.toLocaleString('en-IN')}</div>
@@ -584,51 +563,48 @@ export default function AdminPage() {
                       </div>
 
                       {/* Digital Signature */}
-                      <div className="flex flex-col items-end gap-2 pr-4">
+                      <div className="flex flex-col items-end gap-1 pr-0 print:pr-0 print:mt-6">
                         <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Digital Signature</div>
                         <img src="/signature.jpg" alt="Signature" className="h-16 w-auto mix-blend-multiply opacity-90 print:h-14" />
                         <div className="h-px w-32 bg-slate-200" />
                         <div className="text-[10px] font-black text-slate-900 uppercase">Authorized Signatory</div>
                       </div>
                     </div>
-                  </div>
+                    {/* Final Integrated Footer Block */}
+                    <div className="md:col-span-12 pt-12 border-t border-slate-100 space-y-12 print:pt-12 print:space-y-10 w-full">
 
-                  {/* Final Integrated Footer Block */}
-                  <div className="pt-10 border-t border-slate-100 space-y-10">
-
-                    {/* Phase 5: Banking Details (Primary Payment Call to Action) */}
-                    <div className="bg-slate-50/50 p-6 rounded-2xl border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6 print:bg-transparent print:border-none print:p-0 print:flex-col print:text-center print:gap-4">
-                      <div className="flex items-center gap-4 print:flex-col print:gap-2">
-                        <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-black text-xs print:w-8 print:h-8">PAY</div>
-                        <div className="space-y-0.5">
+                      {/* Phase 5: Banking Details (Primary Payment Call to Action) */}
+                      <div className="bg-slate-50/50 p-6 rounded-2xl border border-slate-100 flex flex-col items-center gap-4 print:bg-transparent print:border-none print:p-0 print:gap-4 w-full text-center">
+                        <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-black text-xs">PAY</div>
+                        <div className="space-y-1">
                           <div className="text-[10px] font-black uppercase text-blue-600 tracking-widest">Banking & Payment Details</div>
-                          <div className="text-xs font-bold text-slate-900 uppercase">HDFC BANK | KAIRO DIGITAL AGENCY | A/C: 50200012345678 | IFSC: HDFC0001234</div>
+                          <div className="text-xs font-bold text-slate-900 uppercase">AXIS BANK | KAIRO DIGITAL | A/C: 922010057663184 | IFSC: UTIB0004199</div>
                         </div>
-                      </div>
-                      <div className="text-right print:text-center">
-                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">UPI ID</div>
-                        <div className="text-sm font-black text-blue-600 tracking-tight">kairodigital@okhdfc</div>
-                      </div>
-                    </div>
-
-                    {/* Phase 6: Final Certification & Legal Authority */}
-                    <div className="space-y-8 pt-6">
-                      <div className="flex flex-col items-center text-center gap-4">
-                        <div className="text-[10px] font-bold text-slate-400 uppercase italic max-w-2xl leading-relaxed">
-                          "WE HEREBY CERTIFY THAT THIS INVOICE SHOWS THE ACTUAL PRICE OF THE GOODS/SERVICES DESCRIBED AND THAT ALL PARTICULARS ARE TRUE AND CORRECT."
-                        </div>
-                        <div className="flex items-center gap-2 px-4 py-1.5 bg-slate-900 text-white rounded-full">
-                          <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-                          <span className="text-[9px] font-black uppercase tracking-[0.2em]">Kairo Digital Agency Official Document</span>
+                        <div className="space-y-1">
+                          <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">UPI ID</div>
+                          <div className="text-sm font-black text-blue-600 tracking-tight">9176639425@AXISBANK</div>
                         </div>
                       </div>
 
-                      <div className="space-y-4 pt-6 border-t border-slate-50">
-                        <div className="text-[10px] font-black uppercase text-blue-600 tracking-[0.5em] text-center">Legal Declarations</div>
-                        <div className="flex flex-col md:flex-row justify-center items-center gap-x-12 gap-y-2 text-[9px] font-black text-slate-400 uppercase tracking-tight">
-                          <p>• GOODS ONCE SOLD WILL NOT BE TAKEN BACK OR EXCHANGED</p>
-                          <p>• INTEREST @ 18% P.A. WILL BE CHARGED IF PAYMENT IS NOT MADE WITHIN 7 DAYS</p>
-                          <p>• OUR RESPONSIBILITY CEASES AS SOON AS SERVICES ARE DELIVERED</p>
+                      {/* Phase 6: Final Certification & Legal Authority */}
+                      <div className="space-y-12 print:pt-8 w-full">
+                        <div className="flex flex-col items-center text-center gap-8 print:gap-6">
+                          <div className="text-[10px] font-bold text-slate-400 uppercase italic max-w-2xl leading-relaxed">
+                            "WE HEREBY CERTIFY THAT THIS INVOICE SHOWS THE ACTUAL PRICE OF THE GOODS/SERVICES DESCRIBED AND THAT ALL PARTICULARS ARE TRUE AND CORRECT."
+                          </div>
+                          <div className="flex items-center gap-2 px-6 py-2 bg-slate-900 text-white rounded-full">
+                            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em]">Kairo Digital Agency Official Document</span>
+                          </div>
+                        </div>
+
+                        <div className="space-y-8 pt-16 border-t border-slate-50 print:pt-12">
+                          <div className="text-[12px] font-black uppercase text-blue-600 tracking-[0.5em] text-center mb-4">Legal Declarations</div>
+                          <div className="flex flex-col items-center gap-2 text-[9px] font-black text-slate-400 uppercase tracking-tight text-center">
+                            <p>• GOODS ONCE SOLD WILL NOT BE TAKEN BACK OR EXCHANGED</p>
+                            <p>• INTEREST @ 18% P.A. WILL BE CHARGED IF PAYMENT IS NOT MADE WITHIN 7 DAYS</p>
+                            <p>• OUR RESPONSIBILITY CEASES AS SOON AS SERVICES ARE DELIVERED</p>
+                          </div>
                         </div>
                       </div>
                     </div>
