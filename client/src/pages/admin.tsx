@@ -563,11 +563,12 @@ export default function AdminPage() {
                       </div>
 
                       {/* Digital Signature */}
-                      <div className="flex flex-col items-end gap-1 pr-0 print:pr-0 print:mt-6">
+                      <div className="flex flex-col items-end gap-1 pr-10 print:pr-10 print:mt-6">
                         <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Digital Signature</div>
                         <img src="/signature.jpg" alt="Signature" className="h-16 w-auto mix-blend-multiply opacity-90 print:h-14" />
                         <div className="h-px w-32 bg-slate-200" />
                         <div className="text-[10px] font-black text-slate-900 uppercase">Authorized Signatory</div>
+                        <div className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mt-0.5">Founder & Creative Director</div>
                       </div>
                     </div>
                     {/* Final Integrated Footer Block */}
