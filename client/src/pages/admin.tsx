@@ -404,7 +404,7 @@ export default function AdminPage() {
                       <div className="space-y-1 print:space-y-0">
                         <div className="text-[10px] font-black uppercase text-blue-600 tracking-[0.2em]">Issued By</div>
                         <div className="text-xs text-slate-500 font-bold leading-relaxed max-w-xs uppercase">
-                          Kairo Digital Agency<br />
+                          Kairo Digital<br />
                           NO 44, VASANTHAM NAGAR, WEST TAMBARAM,<br />
                           CHENNAI, TAMIL NADU - 600045<br />
                           PH: +91 8939651621
@@ -582,7 +582,7 @@ export default function AdminPage() {
                         <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-black text-xs">PAY</div>
                         <div className="space-y-1">
                           <div className="text-[10px] font-black uppercase text-blue-600 tracking-widest">Banking & Payment Details</div>
-                          <div className="text-xs font-bold text-slate-900 uppercase">AXIS BANK | KAIRO DIGITAL | A/C: 922010057663184 | IFSC: UTIB0004199</div>
+                          <div className="text-xs font-bold text-slate-900 uppercase">AXIS BANK | Aathithya | A/C: 922010057663184 | IFSC: UTIB0004199</div>
                         </div>
                         <div className="space-y-1">
                           <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">UPI ID</div>
