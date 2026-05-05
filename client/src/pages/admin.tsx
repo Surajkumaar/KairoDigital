@@ -396,11 +396,11 @@ export default function AdminPage() {
               <div id="printable-invoice" className="w-full bg-white text-slate-900 rounded-[1.5rem] shadow-2xl overflow-hidden print:overflow-visible print:m-0 print:shadow-none print:w-full print:rounded-none">
                 <div className="h-2 bg-blue-600 print:h-1" />
 
-                <div className="p-8 md:p-10 space-y-8 print:p-10 print:space-y-8">
+                <div className="p-8 md:p-10 space-y-8 print:p-4 print:space-y-4">
                   {/* Phase 1: High-Level Header (Visual Identity & Core Meta) */}
                   <div className="flex flex-col md:flex-row justify-between items-start gap-8 border-b-4 border-slate-900 pb-6 print:pb-2 print:gap-2">
                     <div className="space-y-4 flex-1 print:space-y-1">
-                      <img src="/logo.png" alt="Logo" className="h-28 w-auto object-contain print:h-24" />
+                      <img src="/logo.png" alt="Logo" className="h-28 w-auto object-contain print:h-22" />
                       <div className="space-y-1 print:space-y-0">
                         <div className="text-[10px] font-black uppercase text-blue-600 tracking-[0.2em]">Issued By</div>
                         <div className="text-xs text-slate-500 font-bold leading-relaxed max-w-xs uppercase">
@@ -465,10 +465,10 @@ export default function AdminPage() {
                     <table className="w-full text-left border-collapse table-fixed">
                       <thead>
                         <tr className="bg-slate-900 text-white rounded-lg overflow-hidden">
-                          <th className="py-5 px-6 text-[11px] font-black uppercase tracking-[0.2em] w-[55%] print:py-8">Service Details</th>
-                          <th className="py-5 px-2 text-[11px] font-black uppercase tracking-[0.2em] text-center w-[10%] print:py-8">Qty</th>
-                          <th className="py-5 px-2 text-[11px] font-black uppercase tracking-[0.2em] text-right w-[15%] print:py-8">Rate (₹)</th>
-                          <th className="py-5 px-6 text-[11px] font-black uppercase tracking-[0.2em] text-right w-[20%] print:py-8">Net Total</th>
+                          <th className="py-5 px-6 text-[11px] font-black uppercase tracking-[0.2em] w-[55%] print:py-3">Service Details</th>
+                          <th className="py-5 px-2 text-[11px] font-black uppercase tracking-[0.2em] text-center w-[10%] print:py-3">Qty</th>
+                          <th className="py-5 px-2 text-[11px] font-black uppercase tracking-[0.2em] text-right w-[15%] print:py-3">Rate (₹)</th>
+                          <th className="py-5 px-6 text-[11px] font-black uppercase tracking-[0.2em] text-right w-[20%] print:py-3">Net Total</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -546,13 +546,13 @@ export default function AdminPage() {
                   </button>
 
                   {/* Phase 4: Summarized Footer (Visual Emphasis) */}
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-6 border-t-4 border-slate-900 print:pt-4">
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-6 border-t-4 border-slate-900 print:pt-2 print:gap-4">
                     <div className="md:col-span-7">
                       {/* Left empty to push totals to the right */}
                     </div>
 
-                    <div className="md:col-span-5 flex flex-col items-end gap-6 print:gap-2">
-                      <div className="w-full bg-slate-900 text-white rounded-3xl p-8 space-y-6 shadow-2xl shadow-blue-500/20 print:bg-slate-100 print:text-slate-900 print:shadow-none print:p-3 print:rounded-2xl print:space-y-1">
+                    <div className="md:col-span-5 flex flex-col items-end gap-6 print:gap-2 avoid-break">
+                      <div className="w-full bg-slate-900 text-white rounded-3xl p-8 space-y-6 shadow-2xl shadow-blue-500/20 print:bg-slate-100 print:text-slate-900 print:shadow-none print:p-4 print:rounded-2xl print:space-y-1">
                         <div className="space-y-1">
                           <span className="text-[12px] font-black uppercase tracking-[0.4em] text-blue-400 print:text-blue-600">Total Payable</span>
                           <div className="flex justify-between items-end">
@@ -563,19 +563,22 @@ export default function AdminPage() {
                       </div>
 
                       {/* Digital Signature */}
-                      <div className="flex flex-col items-end gap-1 pr-10 print:pr-10 print:mt-6">
+                      <div className="flex flex-col items-end gap-1 pr-10 print:pr-10 print:mt-2">
                         <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Digital Signature</div>
-                        <img src="/signature.jpg" alt="Signature" className="h-16 w-auto mix-blend-multiply opacity-90 print:h-14" />
+                        <img src="/signature.jpg" alt="Signature" className="h-16 w-auto mix-blend-multiply opacity-90 print:h-12" />
                         <div className="h-px w-32 bg-slate-200" />
                         <div className="text-[10px] font-black text-slate-900 uppercase">Authorized Signatory</div>
                         <div className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] mt-0.5">Founder & Creative Director</div>
                       </div>
                     </div>
-                    {/* Final Integrated Footer Block */}
-                    <div className="md:col-span-12 pt-12 border-t border-slate-100 space-y-12 print:pt-12 print:space-y-10 w-full">
+                  </div>
+
+                  {/* Final Integrated Footer Block - Dynamic flow */}
+                  <div className="pt-12 border-t border-slate-100 space-y-12 print:pt-4 print:space-y-4 w-full">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
 
                       {/* Phase 5: Banking Details (Primary Payment Call to Action) */}
-                      <div className="bg-slate-50/50 p-6 rounded-2xl border border-slate-100 flex flex-col items-center gap-4 print:bg-transparent print:border-none print:p-0 print:gap-4 w-full text-center">
+                      <div className="md:col-span-12 bg-slate-50/50 p-6 rounded-2xl border border-slate-100 flex flex-col items-center gap-4 print:bg-transparent print:border-none print:p-0 print:gap-2 w-full text-center avoid-break">
                         <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-black text-xs">PAY</div>
                         <div className="space-y-1">
                           <div className="text-[10px] font-black uppercase text-blue-600 tracking-widest">Banking & Payment Details</div>
@@ -587,24 +590,11 @@ export default function AdminPage() {
                         </div>
                       </div>
 
-                      {/* Phase 6: Final Certification & Legal Authority */}
-                      <div className="space-y-12 print:pt-8 w-full">
-                        <div className="flex flex-col items-center text-center gap-8 print:gap-6">
-                          <div className="text-[10px] font-bold text-slate-400 uppercase italic max-w-2xl leading-relaxed">
-                            "WE HEREBY CERTIFY THAT THIS INVOICE SHOWS THE ACTUAL PRICE OF THE GOODS/SERVICES DESCRIBED AND THAT ALL PARTICULARS ARE TRUE AND CORRECT."
-                          </div>
-                          <div className="flex items-center gap-2 px-6 py-2 bg-slate-900 text-white rounded-full">
-                            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em]">Kairo Digital Agency Official Document</span>
-                          </div>
-                        </div>
-
-                        <div className="space-y-8 pt-16 border-t border-slate-50 print:pt-12">
-                          <div className="text-[12px] font-black uppercase text-blue-600 tracking-[0.5em] text-center mb-4">Legal Declarations</div>
-                          <div className="flex flex-col items-center gap-2 text-[9px] font-black text-slate-400 uppercase tracking-tight text-center">
-                            <p>• GOODS ONCE SOLD WILL NOT BE TAKEN BACK OR EXCHANGED</p>
-                            <p>• INTEREST @ 18% P.A. WILL BE CHARGED IF PAYMENT IS NOT MADE WITHIN 7 DAYS</p>
-                            <p>• OUR RESPONSIBILITY CEASES AS SOON AS SERVICES ARE DELIVERED</p>
+                      {/* Phase 6: Final Certification */}
+                      <div className="md:col-span-12 space-y-12 print:pt-4 w-full avoid-break">
+                        <div className="flex flex-col items-center text-center gap-8 print:gap-2">
+                          <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] max-w-4xl leading-relaxed">
+                            "KAIRO DIGITAL | CREATIVITY MEETS CONVERSION | KAIROXDIGITAL@GMAIL.COM | +91 8939651621"
                           </div>
                         </div>
                       </div>
@@ -645,13 +635,16 @@ export default function AdminPage() {
           main { padding: 0 !important; margin: 0 !important; overflow: visible !important; }
           
           /* Force tighter padding for the invoice container on A4 */
-          .p-10, .md\:p-14, .print\:p-8 { padding: 15mm !important; } 
+          .p-10, .md\:p-14, .print\:p-8 { padding: 10mm !important; } 
 
+          /* Ensure table headers are compact */
+          th { padding-top: 8px !important; padding-bottom: 8px !important; }
           /* Ensure nothing is hidden */
           * { overflow: visible !important; }
           
           /* Prevent items from breaking across pages */
-          .grid { page-break-inside: avoid; }
+          .grid { page-break-inside: auto; }
+          .avoid-break { page-break-inside: avoid; }
         }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
